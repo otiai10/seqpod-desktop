@@ -4,7 +4,10 @@ import {app, BrowserWindow} from 'electron';
 let win = null;
 function initialize() {
   if (win !== null) return;
-  win = new BrowserWindow({width: 800, height: 600});
+  win = new BrowserWindow({
+    width: 800,  minWidth: 620,
+    height: 600, minHeight: 400,
+  });
   win.loadURL(`file://${__dirname}/html/index.html`);
 }
 

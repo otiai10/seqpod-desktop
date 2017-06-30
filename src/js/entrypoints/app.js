@@ -1,7 +1,9 @@
 import React from 'react';
 import {render} from 'react-dom';
 
+import App from '../containers/App';
+
 render(
-  <h1>Hello, FastPot!</h1>,
-  document.querySelector('main#app')
+  <App />,
+  document.querySelector('div#app')
 );
