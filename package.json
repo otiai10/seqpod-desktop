@@ -1,0 +1,50 @@
+{
+  "name": "FastPot",
+  "version": "0.0.1",
+  "description": "One step fastq processing and mutation calling",
+  "main": "./app/main.js",
+  "scripts": {
+    "dev": "webpack --watch",
+    "build": "webpack",
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/otiai10/fastpot.git"
+  },
+  "keywords": [
+    "fastq",
+    "bwa",
+    "mutation-call"
+  ],
+  "author": "otiai10 <otiai10@gmail.com>",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/otiai10/fastpot/issues"
+  },
+  "homepage": "https://github.com/otiai10/fastpot#readme",
+  "devDependencies": {
+    "babel-core": "^6.25.0",
+    "babel-eslint": "^7.2.3",
+    "babel-loader": "^7.1.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "css-loader": "^0.28.4",
+    "electron": "^1.6.11",
+    "eslint": "^4.1.1",
+    "eslint-plugin-react": "^7.1.0",
+    "node-sass": "^4.5.3",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-redux": "^5.0.5",
+    "redux": "^3.7.1",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.18.2",
+    "url-loader": "^0.5.9",
+    "webpack": "^3.0.0"
+  }
+}
