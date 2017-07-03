@@ -1,23 +1,22 @@
+// React
 import React, {Component} from 'react';
 import {render} from 'react-dom';
-import {Provider} from 'react-redux';
-import {createStore} from 'redux';
-import {
-  HashRouter as Router,
-  Route,
-} from 'react-router-dom';
-import {createBrowserHistory} from 'history';
-import {syncHistoryWithStore} from 'react-router-redux';
 
 // Redux
-import reducers from '../reducers';
-const store = createStore(reducers);
+import {Provider} from 'react-redux';
+import store from '../store';
+
+// Routings
+import {HashRouter as Router, Route} from 'react-router-dom';
+import {createBrowserHistory} from 'history';
+import {syncHistoryWithStore} from 'react-router-redux';
 
 // Containers
 import Sidebar from '../containers/Sidebar';
 import Home    from '../containers/Home';
 import Archive from '../containers/Archive';
 
+// Application
 class App extends Component {
   render() {
     return (
@@ -27,8 +26,8 @@ class App extends Component {
             <div className="pane-group">
               <Sidebar />
               <div className="pane padded">
-                <Route exact path="/" component={Home} />
-                <Route path="/archive"    component={Archive} />
+                <Route exact path="/"  component={Home} />
+                <Route path="/archive" component={Archive} />
               </div>
             </div>
           </Router>
@@ -38,8 +37,5 @@ class App extends Component {
   }
 }
 
-
-render(
-  <App />,
-  document.querySelector('div#app')
-);
+// Entrypoint
+render(<App />, document.querySelector('div#app'));
