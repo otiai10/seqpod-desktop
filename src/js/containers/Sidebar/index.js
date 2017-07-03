@@ -20,6 +20,11 @@ export default class Sidebar extends Component {
             <span className="icon icon-archive" />
             <span>History</span>
           </Link>
+          <h5 className="nav-group-title">Others</h5>
+          <Link to="/settings" className={cn('nav-group-item', {active: hash == 'settings'})}>
+            <span className="icon icon-cog" />
+            <span>Settings</span>
+          </Link>
         </nav>
       </div>
     );

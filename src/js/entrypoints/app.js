@@ -12,9 +12,10 @@ import {createBrowserHistory} from 'history';
 import {syncHistoryWithStore} from 'react-router-redux';
 
 // Containers
-import Sidebar from '../containers/Sidebar';
-import Home    from '../containers/Home';
-import Archive from '../containers/Archive';
+import Sidebar  from '../containers/Sidebar';
+import Home     from '../containers/Home';
+import Archive  from '../containers/Archive';
+import Settings from '../containers/Settings';
 
 // Application
 class App extends Component {
@@ -28,6 +29,7 @@ class App extends Component {
               <div className="pane padded">
                 <Route exact path="/"  component={Home} />
                 <Route path="/archive" component={Archive} />
+                <Route path="/settings" component={Settings} />
               </div>
             </div>
           </Router>
