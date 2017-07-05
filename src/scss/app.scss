@@ -1,1 +1,8 @@
 @import '../vendor/photon/css/photon.css';
+@import "./theme/layout.scss";
+@import "./theme/button.scss";
+@import "./components/fastq-drop.scss";
+
+* {
+  transition: all 0.08s;
+}

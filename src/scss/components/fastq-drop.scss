@@ -1,0 +1,43 @@
+@import '../theme/colors';
+
+div.fastq-drop {
+  padding: 0;
+  flex:    1;
+  display:        flex;
+  flex-direction: column;
+  padding: 24px;
+  >div.drop-area {
+    flex: 1;
+    >div.drop-border {
+      height: 100%;
+      border: 10px dotted $weak;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      span {
+        color: $weak;
+      }
+      >div>span {
+        cursor: pointer;
+        font-size: 2em;
+      }
+      >span {
+        cursor: pointer;
+        font-size: 4em;
+      }
+    }
+  }
+  div.action-area {
+    display: flex;
+    padding-top: 24px;
+    >div.message {
+      flex: 1;
+    }
+    >div.buttons {
+      display: flex;
+      align-items: flex-end;
+    }
+  }
+}

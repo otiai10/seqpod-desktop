@@ -2352,4 +2352,61 @@ td:last-child {
   flex: none;
   padding: 3px 10px;
 }
+div.container {
+  width: 100%;
+  height: 100%; }
+  div.container.layout-vertical {
+    display: flex;
+    flex-direction: column; }
 
+.btn.normal {
+  background-color: white;
+  color: #202020;
+  font-family: "Helvetica Neue";
+  box-shadow: 0 1px 2px #6d6d6d;
+  padding: 3px 16px;
+  cursor: pointer; }
+  .btn.normal:active {
+    background-color: #f0f0f0;
+    box-shadow: none; }
+
+.btn[disabled] {
+  background-color: #f0f0f0;
+  color: #d0d0d0;
+  box-shadow: 0 1px 2px #6d6d6d; }
+
+div.fastq-drop {
+  padding: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 24px; }
+  div.fastq-drop > div.drop-area {
+    flex: 1; }
+    div.fastq-drop > div.drop-area > div.drop-border {
+      height: 100%;
+      border: 10px dotted #d0d0d0;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center; }
+      div.fastq-drop > div.drop-area > div.drop-border span {
+        color: #d0d0d0; }
+      div.fastq-drop > div.drop-area > div.drop-border > div > span {
+        cursor: pointer;
+        font-size: 2em; }
+      div.fastq-drop > div.drop-area > div.drop-border > span {
+        cursor: pointer;
+        font-size: 4em; }
+  div.fastq-drop div.action-area {
+    display: flex;
+    padding-top: 24px; }
+    div.fastq-drop div.action-area > div.message {
+      flex: 1; }
+    div.fastq-drop div.action-area > div.buttons {
+      display: flex;
+      align-items: flex-end; }
+
+* {
+  transition: all 0.08s; }

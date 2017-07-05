@@ -1,0 +1,18 @@
+
+.btn.normal {
+  background-color: white;
+  color: #202020;
+  font-family: "Helvetica Neue";
+  box-shadow: 0 1px 2px #6d6d6d;
+  padding: 3px 16px;
+  cursor: pointer;
+  &:active {
+    background-color: #f0f0f0;
+    box-shadow: none;
+  }
+}
+.btn[disabled] {
+  background-color: #f0f0f0;
+  color: #d0d0d0;
+  box-shadow: 0 1px 2px #6d6d6d;
+}
