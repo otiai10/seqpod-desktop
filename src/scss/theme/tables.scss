@@ -1,0 +1,17 @@
+
+table.dl-horizontal {
+  * {
+    border: none;
+  }
+  >tbody {
+    >tr {
+      line-height: 1em;
+      >th {
+        text-align: right;
+      }
+      >td {
+        text-align: left
+      }
+    }
+  }
+}

@@ -8,8 +8,10 @@ div.fastq-drop {
   padding: 24px;
   >div.drop-area {
     flex: 1;
+    display:        flex;
+    flex-direction: column;
     >div.drop-border {
-      height: 100%;
+      flex: 1;
       border: 10px dotted $weak;
       border-radius: 16px;
       display: flex;
@@ -38,6 +40,43 @@ div.fastq-drop {
     >div.buttons {
       display: flex;
       align-items: flex-end;
+    }
+  }
+}
+
+div.accepted-fastq {
+  position: relative;
+  display: flex;
+  margin-bottom: 16px;
+  >div.fastq-cancel {
+    position: absolute;
+    top: -12px;
+    right: 0px;
+    cursor: pointer;
+    >span.icon {
+      cursor: pointer;
+      font-size: 2.8em;
+      color: $weak;
+    }
+  }
+  &:hover {
+    >div.fastq-cancel>span.icon {
+      color: $warning;
+    }
+  }
+  >div.fastq-icon {
+    padding: 0px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    >span.icon {
+      font-size: 4em;
+    }
+  }
+  >div.fastq-info {
+    >h2 {
+      margin: 0;
+      font-size: 1.4em;
     }
   }
 }

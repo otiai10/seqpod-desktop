@@ -2375,6 +2375,16 @@ div.container {
   color: #d0d0d0;
   box-shadow: 0 1px 2px #6d6d6d; }
 
+table.dl-horizontal * {
+  border: none; }
+
+table.dl-horizontal > tbody > tr {
+  line-height: 1em; }
+  table.dl-horizontal > tbody > tr > th {
+    text-align: right; }
+  table.dl-horizontal > tbody > tr > td {
+    text-align: left; }
+
 div.fastq-drop {
   padding: 0;
   flex: 1;
@@ -2382,9 +2392,11 @@ div.fastq-drop {
   flex-direction: column;
   padding: 24px; }
   div.fastq-drop > div.drop-area {
-    flex: 1; }
+    flex: 1;
+    display: flex;
+    flex-direction: column; }
     div.fastq-drop > div.drop-area > div.drop-border {
-      height: 100%;
+      flex: 1;
       border: 10px dotted #d0d0d0;
       border-radius: 16px;
       display: flex;
@@ -2407,6 +2419,32 @@ div.fastq-drop {
     div.fastq-drop div.action-area > div.buttons {
       display: flex;
       align-items: flex-end; }
+
+div.accepted-fastq {
+  position: relative;
+  display: flex;
+  margin-bottom: 16px; }
+  div.accepted-fastq > div.fastq-cancel {
+    position: absolute;
+    top: -12px;
+    right: 0px;
+    cursor: pointer; }
+    div.accepted-fastq > div.fastq-cancel > span.icon {
+      cursor: pointer;
+      font-size: 2.8em;
+      color: #d0d0d0; }
+  div.accepted-fastq:hover > div.fastq-cancel > span.icon {
+    color: #F44336; }
+  div.accepted-fastq > div.fastq-icon {
+    padding: 0px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center; }
+    div.accepted-fastq > div.fastq-icon > span.icon {
+      font-size: 4em; }
+  div.accepted-fastq > div.fastq-info > h2 {
+    margin: 0;
+    font-size: 1.4em; }
 
 * {
   transition: all 0.08s; }

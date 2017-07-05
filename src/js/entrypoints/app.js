@@ -17,6 +17,10 @@ import Home     from '../containers/Home';
 import Archive  from '../containers/Archive';
 import Settings from '../containers/Settings';
 
+// Reset
+document.addEventListener('dragover', ev => ev.preventDefault());
+document.addEventListener('drop',     ev => ev.preventDefault());
+
 // Application
 class App extends Component {
   render() {
