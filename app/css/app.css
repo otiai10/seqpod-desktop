@@ -2352,8 +2352,4 @@ td:last-child {
   flex: none;
   padding: 3px 10px;
 }
-section {
-  font-family: system; }
-  section > h1, section > h2 {
-    margin: 0;
-    padding: 0; }
+
