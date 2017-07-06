@@ -1,6 +1,6 @@
 /* eslint no-console:0 */
 export default class APIClient {
-  constructor(version = '0', url = process.env.API_URL) {
+  constructor(version = 'v0', url = process.env.API_URL) {
     this.version = version;
     this.base = url.replace(/\/$/, '');
     this.fetch = fetch;
