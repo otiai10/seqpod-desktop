@@ -11,10 +11,10 @@ export default (state = Object.assign({}, initialState), action) => {
     // Unique by name
     if (state.target.files.some(f => action.data.name == f.name)) return state;
     state.target.files.push(action.data);
-    return {...state};
+    return {...state, target: {...state.target}};
   case 'CANCEL_FASTQ_FILE':
     state.target.files = state.target.files.filter(f => action.data.name != f.name);
-    return {...state};
+    return {...state, target: {...state.target}};
   }
   return state;
 };
