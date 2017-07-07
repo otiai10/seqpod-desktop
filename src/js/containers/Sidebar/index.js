@@ -30,10 +30,12 @@ export default class Sidebar extends Component {
     );
   }
   _getCurrentHash() {
-    if (!this.props.routing.locationBeforeTransitions) return '';
-    return this.props.routing.locationBeforeTransitions.hash.replace(/^#/, '');
+    return this.context.router.route.location.pathname.replace(/^\//, '');
   }
   static propTypes = {
     routing: PropTypes.object.isRequired,
+  }
+  static contextTypes = {
+    router: PropTypes.object
   }
 }

@@ -21,6 +21,11 @@ export default class APIClient {
     });
   }
 
+  // API GET JOB by ID
+  job(id) {
+    return this.__get(`jobs/${id}`);
+  }
+
   // -- @private --
   __fetch(url, options = {}) {
     url = this.__endpoint(url);

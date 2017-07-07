@@ -4,6 +4,10 @@ import {connect} from 'react-redux';
 import {replace} from 'react-router-redux';
 import cn from 'classnames';
 
+// Models
+import Job from '../../../models/Job';
+
+// Actions
 import {
   api_workspace,
   api_upload,
@@ -52,6 +56,7 @@ export default class Actions extends Component {
       ]);
     }).then(([job]) => {
       this.setState({sending:false});
+      Job.create(job);
       this.context.router.history.push(`/archive/${job._id}`);
     }).catch(err => {
       this.setState({sending:false});

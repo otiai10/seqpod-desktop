@@ -1,0 +1,40 @@
+// TODO: Move colors to ../theme/colors
+
+div.job-detail {
+    >h1 {
+      margin:  0;
+      padding: 0;
+      font-size: 2em;
+    }
+    >table {
+      font-size: 1.8em;
+    }
+    span.label {
+      border-radius: 8px;
+      padding: 8px 16px;
+      color: white;
+      font-size: 0.8em;
+      &.default {
+        background-color: #777;
+      }
+      &.info {
+        background-color: #5bc0de;
+      }
+      &.primary {
+        background-color: #337ab7;
+      }
+      &.success {
+        background-color: #5cb85c;
+      }
+      &.danger {
+        background-color: #d9534f;
+      }
+    }
+
+    >div.navigation-header {
+      font-size: 1.2em;
+      a {
+        color: #337ab7;
+      }
+    }
+}

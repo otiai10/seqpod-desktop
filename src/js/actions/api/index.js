@@ -15,3 +15,7 @@ export function api_workspace() {
 export function api_upload(job, fastq) {
   return client.upload(job, fastq);
 }
+
+export function api_get_job(id) {
+  return client.job(id);
+}
