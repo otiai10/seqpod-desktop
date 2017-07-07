@@ -2,8 +2,16 @@
 import APIClient from './client';
 const client = new APIClient();
 
-export function statusAPI() {
+export function api_status() {
   return (dispatch) => {
     return dispatch(client.status());
   };
+}
+
+export function api_workspace() {
+  return client.workspace();
+}
+
+export function api_upload(job, fastq) {
+  return client.upload(job, fastq);
 }

@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {statusAPI} from '../actions/api';
+import {api_status} from '../actions/api';
 
 @connect(null, {
-  statusAPI,
+  api_status,
 })
 export default class Settings extends Component {
   constructor(props) {
@@ -14,7 +14,7 @@ export default class Settings extends Component {
     };
   }
   componentDidMount() {
-    this.props.statusAPI().then(server => this.setState({server}));
+    this.props.api_status().then(server => this.setState({server}));
   }
   render() {
     return(
@@ -29,6 +29,6 @@ export default class Settings extends Component {
     );
   }
   static propTypes = {
-    statusAPI: PropTypes.func.isRequired,
+    api_status: PropTypes.func.isRequired,
   }
 }

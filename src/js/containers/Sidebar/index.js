@@ -16,7 +16,7 @@ export default class Sidebar extends Component {
             <span className="icon icon-plus" />
             <span>New</span>
           </Link>
-          <Link to="/archive" className={cn('nav-group-item', {active: hash == 'archive'})}>
+          <Link to="/archive" className={cn('nav-group-item', {active: hash.match(/^archive/)})}>
             <span className="icon icon-archive" />
             <span>History</span>
           </Link>

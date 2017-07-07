@@ -12,10 +12,11 @@ import {createBrowserHistory} from 'history';
 import {syncHistoryWithStore} from 'react-router-redux';
 
 // Containers
-import Sidebar  from '../containers/Sidebar';
-import Home     from '../containers/Home';
-import Archive  from '../containers/Archive';
-import Settings from '../containers/Settings';
+import Sidebar   from '../containers/Sidebar';
+import Home      from '../containers/Home';
+import JobDetail from '../containers/Archive/JobDetail';
+import Archive   from '../containers/Archive';
+import Settings  from '../containers/Settings';
 
 // Reset
 document.addEventListener('dragover', ev => ev.preventDefault());
@@ -30,10 +31,11 @@ class App extends Component {
           <Router hashType="noslash" history={syncHistoryWithStore(createBrowserHistory(), store)}>
             <div className="pane-group">
               <Sidebar />
-              <div className="pane padded">
-                <Route exact path="/"  component={Home} />
-                <Route path="/archive" component={Archive} />
-                <Route path="/settings" component={Settings} />
+              <div className="pane padded app">
+                <Route exact path="/"        component={Home} />
+                <Route path="/archive/:job"  component={JobDetail} />
+                <Route exact path="/archive" component={Archive} />
+                <Route path="/settings"      component={Settings} />
               </div>
             </div>
           </Router>

@@ -2434,7 +2434,7 @@ div.accepted-fastq {
   div.accepted-fastq:hover > div.fastq-cancel > span.icon {
     color: #F44336; }
   div.accepted-fastq > div.fastq-icon {
-    padding: 0px 16px;
+    padding: 0 16px 0 0;
     display: flex;
     align-items: center;
     justify-content: center; }
@@ -2443,6 +2443,3 @@ div.accepted-fastq {
   div.accepted-fastq > div.fastq-info > h2 {
     margin: 0;
     font-size: 1.4em; }
-
-* {
-  transition: all 0.08s; }
