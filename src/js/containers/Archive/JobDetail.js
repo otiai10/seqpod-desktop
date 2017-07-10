@@ -25,6 +25,7 @@ export default class JobDetail extends Component {
   render() {
     if (this.state.job == null) return null;
     const job = this.state.job;
+    console.log(job);
     return (
       <div className="job-detail container">
         {this._getNavigationHeader()}

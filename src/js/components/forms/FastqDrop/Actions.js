@@ -11,11 +11,13 @@ import Job from '../../../models/Job';
 import {
   api_workspace,
   api_upload,
+  api_ready_job,
 } from '../../../actions/api';
 
 @connect(({form}) => form, {
   api_workspace,
   api_upload,
+  api_ready_job,
   replace,
 })
 export default class Actions extends Component {
@@ -55,6 +57,8 @@ export default class Actions extends Component {
         this.props.api_upload(job, files[1]),
       ]);
     }).then(([job]) => {
+      return this.props.api_ready_job(job._id);
+    }).then(({job}) => {
       this.setState({sending:false});
       Job.create(job);
       this.context.router.history.push(`/archive/${job._id}`);
@@ -69,6 +73,7 @@ export default class Actions extends Component {
     }).isRequired,
     api_workspace: PropTypes.func.isRequired,
     api_upload:    PropTypes.func.isRequired,
+    api_ready_job: PropTypes.func.isRequired,
     replace:       PropTypes.func.isRequired,
   }
   static contextTypes = {

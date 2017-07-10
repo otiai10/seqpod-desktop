@@ -26,6 +26,11 @@ export default class APIClient {
     return this.__get(`jobs/${id}`);
   }
 
+  // API Mark Job as Ready
+  jobReady(id) {
+    return this.__post(`jobs/${id}/ready`);
+  }
+
   // -- @private --
   __fetch(url, options = {}) {
     url = this.__endpoint(url);

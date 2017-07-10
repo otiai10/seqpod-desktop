@@ -19,3 +19,7 @@ export function api_upload(job, fastq) {
 export function api_get_job(id) {
   return client.job(id);
 }
+
+export function api_ready_job(id) {
+  return client.jobReady(id);
+}

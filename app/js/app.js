@@ -7912,6 +7912,7 @@ exports.api_status = api_status;
 exports.api_workspace = api_workspace;
 exports.api_upload = api_upload;
 exports.api_get_job = api_get_job;
+exports.api_ready_job = api_ready_job;
 
 var _client = __webpack_require__(298);
 
@@ -7936,6 +7937,10 @@ function api_upload(job, fastq) {
 
 function api_get_job(id) {
   return client.job(id);
+}
+
+function api_ready_job(id) {
+  return client.jobReady(id);
 }
 
 /***/ }),
@@ -31599,6 +31604,7 @@ var Actions = (_dec = (0, _reactRedux.connect)(function (_ref) {
 }, {
   api_workspace: _api.api_workspace,
   api_upload: _api.api_upload,
+  api_ready_job: _api.api_ready_job,
   replace: _reactRouterRedux.replace
 }), _dec(_class = (_temp = _class2 = function (_Component) {
   _inherits(Actions, _Component);
@@ -31658,6 +31664,10 @@ var Actions = (_dec = (0, _reactRedux.connect)(function (_ref) {
         var _ref4 = _slicedToArray(_ref3, 1),
             job = _ref4[0];
 
+        return _this2.props.api_ready_job(job._id);
+      }).then(function (_ref5) {
+        var job = _ref5.job;
+
         _this2.setState({ sending: false });
         _Job2.default.create(job);
         _this2.context.router.history.push('/archive/' + job._id);
@@ -31675,6 +31685,7 @@ var Actions = (_dec = (0, _reactRedux.connect)(function (_ref) {
   }).isRequired,
   api_workspace: _propTypes2.default.func.isRequired,
   api_upload: _propTypes2.default.func.isRequired,
+  api_ready_job: _propTypes2.default.func.isRequired,
   replace: _propTypes2.default.func.isRequired
 }, _class2.contextTypes = {
   router: _propTypes2.default.object
@@ -33092,6 +33103,14 @@ var APIClient = function () {
       return this.__get('jobs/' + id);
     }
 
+    // API Mark Job as Ready
+
+  }, {
+    key: 'jobReady',
+    value: function jobReady(id) {
+      return this.__post('jobs/' + id + '/ready');
+    }
+
     // -- @private --
 
   }, {
@@ -33245,6 +33264,7 @@ var JobDetail = (_dec = (0, _reactRedux.connect)(function (_ref) {
     value: function render() {
       if (this.state.job == null) return null;
       var job = this.state.job;
+      console.log(job);
       return _react2.default.createElement(
         'div',
         { className: 'job-detail container' },
