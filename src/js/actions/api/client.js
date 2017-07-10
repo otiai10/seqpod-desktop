@@ -34,12 +34,28 @@ export default class APIClient {
       dispatch({type:'API_START'});
       return new Promise((resolve, reject) => {
         fetch(url, options).then(res => {
-          dispatch({type:'API_END'});
-          if (res.status >= 400) return res.json().then(reject);
-          res.json().then(resolve);
+          const decoder = new TextDecoder();
+
+          // FIXME: https://stackoverflow.com/questions/19876002/percentage-progress-of-an-ajax-request-with-transfer-encoding-chunked
+          const total = 500;
+
+          let reader = res.body.getReader();
+          let chunk = '';
+
+          const progress = (result) => {
+            if (result.done) {
+              (res.status >= 400) ? reject(JSON.parse(chunk)) : resolve(JSON.parse(chunk));
+              return this.__api_end(dispatch);
+            }
+            chunk += decoder.decode(result.value, {stream:true});
+            dispatch({type: 'API_PROGRESS', data:{received:chunk.length, total}});
+            return reader.read().then(progress);
+          };
+          reader.read().then(progress);
+
         }).catch(err => {
           reject(err);
-          dispatch({type:'API_END'});
+          return this.__api_end(dispatch);
         });
       });
     };
@@ -56,4 +72,10 @@ export default class APIClient {
     return [this.base, this.version, url.replace(/^\//, '')].join('/');
   }
 
+  __api_end(dispatch) {
+    dispatch({type:'API_COMPLETED'});
+    setTimeout(() => {
+      dispatch({type:'API_END'});
+    }, 400);
+  }
 }

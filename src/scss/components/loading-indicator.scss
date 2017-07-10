@@ -1,0 +1,39 @@
+$height: 6px;
+$border: #326394;
+
+@keyframes progressbar {
+  from {
+    background-position: 40px 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+
+div#loading-indicator-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: $height;
+  &.loading {
+    display: block;
+  }
+  &:not(.loading) {
+    display: none;
+  }
+  >#loading-indicator {
+    transition: all 1s;
+    height: $height;
+
+    background-image: linear-gradient(
+      -45deg,
+      transparent 25%,
+      $border 25%, $border 50%,
+      transparent 50%, transparent 75%,
+      $border 75%, $border
+    );
+    background-size: $height $height;
+    animation: progressbar 2s linear infinite;
+  }
+}

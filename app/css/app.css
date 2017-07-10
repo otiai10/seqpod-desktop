@@ -2478,3 +2478,26 @@ div.job-detail > div.navigation-header {
   font-size: 1.2em; }
   div.job-detail > div.navigation-header a {
     color: #337ab7; }
+
+@keyframes progressbar {
+  from {
+    background-position: 40px 0; }
+  to {
+    background-position: 0 0; } }
+
+div#loading-indicator-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 6px; }
+  div#loading-indicator-container.loading {
+    display: block; }
+  div#loading-indicator-container:not(.loading) {
+    display: none; }
+  div#loading-indicator-container > #loading-indicator {
+    transition: all 1s;
+    height: 6px;
+    background-image: linear-gradient(-45deg, transparent 25%, #326394 25%, #326394 50%, transparent 50%, transparent 75%, #326394 75%, #326394);
+    background-size: 6px 6px;
+    animation: progressbar 2s linear infinite; }

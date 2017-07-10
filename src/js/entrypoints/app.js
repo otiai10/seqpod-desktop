@@ -17,6 +17,7 @@ import Home      from '../containers/Home';
 import JobDetail from '../containers/Archive/JobDetail';
 import Archive   from '../containers/Archive';
 import Settings  from '../containers/Settings';
+import Loading   from '../containers/Loading';
 
 // Reset
 document.addEventListener('dragover', ev => ev.preventDefault());
@@ -36,6 +37,7 @@ class App extends Component {
                 <Route path="/archive/:job"  component={JobDetail} />
                 <Route exact path="/archive" component={Archive} />
                 <Route path="/settings"      component={Settings} />
+                <Loading />
               </div>
             </div>
           </Router>
