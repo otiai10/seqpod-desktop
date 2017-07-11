@@ -1,5 +1,5 @@
 {
-  "name": "FastPot",
+  "name": "SeqPod",
   "version": "0.0.1",
   "description": "One step fastq processing and mutation calling",
   "main": "./app/main.js",
