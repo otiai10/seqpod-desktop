@@ -19,13 +19,18 @@ export default class JobDetail extends Component {
     this.state = {job: null};
   }
   componentDidMount() {
+    this._fetchJob();
+  }
+  _fetchJob() {
     const id = this.props.match.params.job;
-    this.props.api_get_job(id).then(({job}) => this.setState({job}));
+    this.props.api_get_job(id).then(({job}) => {
+      this.setState({job});
+      if (!job.finished_at) setTimeout(() => this._fetchJob(), 4000);
+    });
   }
   render() {
     if (this.state.job == null) return null;
     const job = this.state.job;
-    console.log(job);
     return (
       <div className="job-detail container">
         {this._getNavigationHeader()}
@@ -43,8 +48,16 @@ export default class JobDetail extends Component {
             <tr><th>Status:</th><td>{this._getStatusLabel()}</td></tr>
           </tbody>
         </table>
+        {this._getInspection()}
+        {this._getErrors()}
       </div>
     );
+  }
+  _getInspection() {
+    return <code className="inspect"><pre>{JSON.stringify(this.state.job, null, 2)}</pre></code>;
+  }
+  _getErrors() {
+    return this.state.job.errors.map(err => <code key={err}>{err}</code>);
   }
   _getStatusLabel() {
     const {started_at, finished_at, errors = []} = this.state.job;

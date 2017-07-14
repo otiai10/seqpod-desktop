@@ -2479,6 +2479,11 @@ div.job-detail > div.navigation-header {
   div.job-detail > div.navigation-header a {
     color: #337ab7; }
 
+code.inspect > pre {
+  padding: 4px;
+  font-size: 0.8em;
+  border: 1px dotted; }
+
 @keyframes progressbar {
   from {
     background-position: 40px 0; }

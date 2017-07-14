@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "webpack --watch",
     "build": "webpack",
+    "build-release": "API_URL=http://52.63.157.130:8080 webpack",
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
