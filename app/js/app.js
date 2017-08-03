@@ -33102,8 +33102,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 /* eslint no-console:0 */
 var APIClient = function () {
   function APIClient() {
-    var version = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'v0';
-    var url = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "http://52.63.157.130:8080";
+    var url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "http://54.206.68.225:8080";
+    var version = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'v0';
 
     _classCallCheck(this, APIClient);
 
