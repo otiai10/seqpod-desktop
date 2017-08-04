@@ -16,7 +16,15 @@ import {
 export default class JobDetail extends Component {
   constructor(props) {
     super(props);
-    this.state = {job: null};
+    this.state = {
+      job: null,
+      open: {
+        result: false,
+        stdout: false,
+        stderr: false,
+        inspection: false,
+      },
+    };
   }
   componentDidMount() {
     this._fetchJob();
@@ -48,13 +56,77 @@ export default class JobDetail extends Component {
             <tr><th>Status:</th><td>{this._getStatusLabel()}</td></tr>
           </tbody>
         </table>
-        {this._getInspection()}
-        {this._getErrors()}
+
+        {this._renderResultFiles()}
+        {this._renderStdOut()}
+        {this._renderStdErr()}
+        {this._renderAppLog()}
+        {this._renderinspection()}
+
       </div>
     );
   }
-  _getInspection() {
-    return <code className="inspect"><pre>{JSON.stringify(this.state.job, null, 2)}</pre></code>;
+  _renderResultFiles() {
+    const onclick = () => this.setState({open: {...this.state.open, result: !this.state.open.result}});
+    const h = <h3 onClick={onclick}>{this.state.open.result ? '- Result Files' : '▼ Result Files'}</h3>;
+    return (
+      <div className="section">
+        {h}
+        {this.state.open.result ? <table>
+          <tbody>
+            {this.state.job.results.map(result => {
+              return <tr key={result}><td colSpan="2"><Link to={`/archive/${this.state.job._id}/results/${result}`}>{result}</Link></td></tr>;
+            })}
+          </tbody>
+        </table> : null}
+      </div>
+    );
+  }
+  _renderStdOut() {
+    const onclick = () => this.setState({open: {...this.state.open, stdout: !this.state.open.stdout}});
+    const h = <h3 onClick={onclick}>{this.state.open.stdout ? '- Stdout Log' : '▼ Stdout Log'}</h3>;
+    return (
+      <div className="section">
+        {h}
+        {this.state.open.stdout ? <div className="stdio">
+          {this.state.job.stdout.split('\n').map((line, i) => <p key={i} className="line">{line}</p>)}
+        </div> : null}
+      </div>
+    );
+  }
+  _renderStdErr() {
+    const onclick = () => this.setState({open: {...this.state.open, stderr: !this.state.open.stderr}});
+    const h = <h3 onClick={onclick}>{this.state.open.stderr ? '- Stderr Log' : '▼ Stderr Log'}</h3>;
+    return (
+      <div className="section">
+        {h}
+        {this.state.open.stderr ? <div className="stdio">
+          {this.state.job.stderr.split('\n').map((line, i) => <p key={i} className="line">{line}</p>)}
+        </div> : null}
+      </div>
+    );
+  }
+  _renderAppLog() {
+    const onclick = () => this.setState({open: {...this.state.open, applog: !this.state.open.applog}});
+    const h = <h3 onClick={onclick}>{this.state.open.applog ? '- Application Log' : '▼ Application Log'}</h3>;
+    return (
+      <div className="section">
+        {h}
+        {this.state.open.applog ? <div className="stdio">
+          {this.state.job.applog.split('\n').map((line, i) => <p key={i} className="line">{line}</p>)}
+        </div> : null}
+      </div>
+    );
+  }
+  _renderinspection() {
+    const onclick = () => this.setState({open: {...this.state.open, inspection: !this.state.open.inspection}});
+    const h = <h3 onClick={onclick}>{this.state.open.inspection ? '- Job inspection' : '▼ Job inspection'}</h3>;
+    return (
+      <div className="section">
+        {h}
+        {this.state.open.inspection ? <code className="inspect"><pre>{JSON.stringify(this.state.job, null, 2)}</pre></code> : null}
+      </div>
+    );
   }
   _getErrors() {
     return this.state.job.errors.map(err => <code key={err}>{err}</code>);

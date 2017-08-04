@@ -44,3 +44,20 @@ code.inspect>pre {
   font-size: 0.8em;
   border: 1px dotted;
 }
+
+div.section {
+  margin-bottom: 8px;
+  >h3 {
+    cursor: pointer;
+  }
+  div.stdio {
+    background-color: #21262b;
+    color:            #d8d8da;
+    padding: 8px;
+    overflow-x: scroll;
+    >p.line {
+      margin: 0;
+      white-space: nowrap;
+    }
+  }
+}

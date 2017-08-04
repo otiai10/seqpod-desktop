@@ -33236,6 +33236,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _dec, _class, _class2, _temp;
@@ -33281,7 +33283,15 @@ var JobDetail = (_dec = (0, _reactRedux.connect)(function (_ref) {
 
     var _this = _possibleConstructorReturn(this, (JobDetail.__proto__ || Object.getPrototypeOf(JobDetail)).call(this, props));
 
-    _this.state = { job: null };
+    _this.state = {
+      job: null,
+      open: {
+        result: false,
+        stdout: false,
+        stderr: false,
+        inspection: false
+      }
+    };
     return _this;
   }
 
@@ -33405,21 +33415,171 @@ var JobDetail = (_dec = (0, _reactRedux.connect)(function (_ref) {
             )
           )
         ),
-        this._getInspection(),
-        this._getErrors()
+        this._renderResultFiles(),
+        this._renderStdOut(),
+        this._renderStdErr(),
+        this._renderAppLog(),
+        this._renderinspection()
       );
     }
   }, {
-    key: '_getInspection',
-    value: function _getInspection() {
+    key: '_renderResultFiles',
+    value: function _renderResultFiles() {
+      var _this3 = this;
+
+      var onclick = function onclick() {
+        return _this3.setState({ open: _extends({}, _this3.state.open, { result: !_this3.state.open.result }) });
+      };
+      var h = _react2.default.createElement(
+        'h3',
+        { onClick: onclick },
+        this.state.open.result ? '- Result Files' : '▼ Result Files'
+      );
       return _react2.default.createElement(
-        'code',
-        { className: 'inspect' },
-        _react2.default.createElement(
-          'pre',
+        'div',
+        { className: 'section' },
+        h,
+        this.state.open.result ? _react2.default.createElement(
+          'table',
           null,
-          JSON.stringify(this.state.job, null, 2)
-        )
+          _react2.default.createElement(
+            'tbody',
+            null,
+            this.state.job.results.map(function (result) {
+              return _react2.default.createElement(
+                'tr',
+                { key: result },
+                _react2.default.createElement(
+                  'td',
+                  { colSpan: '2' },
+                  _react2.default.createElement(
+                    _reactRouterDom.Link,
+                    { to: '/archive/' + _this3.state.job._id + '/results/' + result },
+                    result
+                  )
+                )
+              );
+            })
+          )
+        ) : null
+      );
+    }
+  }, {
+    key: '_renderStdOut',
+    value: function _renderStdOut() {
+      var _this4 = this;
+
+      var onclick = function onclick() {
+        return _this4.setState({ open: _extends({}, _this4.state.open, { stdout: !_this4.state.open.stdout }) });
+      };
+      var h = _react2.default.createElement(
+        'h3',
+        { onClick: onclick },
+        this.state.open.stdout ? '- Stdout Log' : '▼ Stdout Log'
+      );
+      return _react2.default.createElement(
+        'div',
+        { className: 'section' },
+        h,
+        this.state.open.stdout ? _react2.default.createElement(
+          'div',
+          { className: 'stdio' },
+          this.state.job.stdout.split('\n').map(function (line, i) {
+            return _react2.default.createElement(
+              'p',
+              { key: i, className: 'line' },
+              line
+            );
+          })
+        ) : null
+      );
+    }
+  }, {
+    key: '_renderStdErr',
+    value: function _renderStdErr() {
+      var _this5 = this;
+
+      var onclick = function onclick() {
+        return _this5.setState({ open: _extends({}, _this5.state.open, { stderr: !_this5.state.open.stderr }) });
+      };
+      var h = _react2.default.createElement(
+        'h3',
+        { onClick: onclick },
+        this.state.open.stderr ? '- Stderr Log' : '▼ Stderr Log'
+      );
+      return _react2.default.createElement(
+        'div',
+        { className: 'section' },
+        h,
+        this.state.open.stderr ? _react2.default.createElement(
+          'div',
+          { className: 'stdio' },
+          this.state.job.stderr.split('\n').map(function (line, i) {
+            return _react2.default.createElement(
+              'p',
+              { key: i, className: 'line' },
+              line
+            );
+          })
+        ) : null
+      );
+    }
+  }, {
+    key: '_renderAppLog',
+    value: function _renderAppLog() {
+      var _this6 = this;
+
+      var onclick = function onclick() {
+        return _this6.setState({ open: _extends({}, _this6.state.open, { applog: !_this6.state.open.applog }) });
+      };
+      var h = _react2.default.createElement(
+        'h3',
+        { onClick: onclick },
+        this.state.open.applog ? '- Application Log' : '▼ Application Log'
+      );
+      return _react2.default.createElement(
+        'div',
+        { className: 'section' },
+        h,
+        this.state.open.applog ? _react2.default.createElement(
+          'div',
+          { className: 'stdio' },
+          this.state.job.applog.split('\n').map(function (line, i) {
+            return _react2.default.createElement(
+              'p',
+              { key: i, className: 'line' },
+              line
+            );
+          })
+        ) : null
+      );
+    }
+  }, {
+    key: '_renderinspection',
+    value: function _renderinspection() {
+      var _this7 = this;
+
+      var onclick = function onclick() {
+        return _this7.setState({ open: _extends({}, _this7.state.open, { inspection: !_this7.state.open.inspection }) });
+      };
+      var h = _react2.default.createElement(
+        'h3',
+        { onClick: onclick },
+        this.state.open.inspection ? '- Job inspection' : '▼ Job inspection'
+      );
+      return _react2.default.createElement(
+        'div',
+        { className: 'section' },
+        h,
+        this.state.open.inspection ? _react2.default.createElement(
+          'code',
+          { className: 'inspect' },
+          _react2.default.createElement(
+            'pre',
+            null,
+            JSON.stringify(this.state.job, null, 2)
+          )
+        ) : null
       );
     }
   }, {

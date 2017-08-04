@@ -2484,6 +2484,19 @@ code.inspect > pre {
   font-size: 0.8em;
   border: 1px dotted; }
 
+div.section {
+  margin-bottom: 8px; }
+  div.section > h3 {
+    cursor: pointer; }
+  div.section div.stdio {
+    background-color: #21262b;
+    color: #d8d8da;
+    padding: 8px;
+    overflow-x: scroll; }
+    div.section div.stdio > p.line {
+      margin: 0;
+      white-space: nowrap; }
+
 @keyframes progressbar {
   from {
     background-position: 40px 0; }
