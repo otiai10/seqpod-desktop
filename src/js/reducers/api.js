@@ -1,19 +1,38 @@
 const initialState = {
-  loading:  0,
-  total:    1000,
-  received: 0,
-  progress: 0,
+  requests: {},
 };
 export default (state = {...initialState}, action) => {
   switch(action.type) {
   case 'API_START':
-    return {...state, loading: state.loading + 1};
+    return {
+      ...state,
+      requests: {
+        ...state.requests,
+        [action.data.id]: {loaded: 0, total: 1000}, // TMP
+      },
+    };
   case 'API_PROGRESS':
-    return {...state, total: action.data.total, received: action.data.received, progress: action.data.received / action.data.total};
+    return {
+      ...state,
+      requests: {
+        ...state.requests,
+        [action.data.id]: {loaded: action.data.loaded, total: action.data.total},
+      },
+    };
   case 'API_COMPLETED':
-    return {...state, ...(state.loading == 1) ? {progress: 1} : null};
+    return {
+      ...state,
+      requests: {
+        ...state.requests,
+        [action.data.id]: {loaded: state.requests[action.data.id].total, total: state.requests[action.data.id].total},
+      },
+    };
   case 'API_END':
-    return {...state, loading: state.loading - 1};
+    delete(state.requests[action.data.id]);
+    return {
+      ...state,
+      requests: {...state.requests},
+    };
   }
   return state;
 };

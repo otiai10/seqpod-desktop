@@ -33,36 +33,35 @@ export default class APIClient {
 
   // -- @private --
   __fetch(url, options = {}) {
+
+    const id = Date.now() + Math.random();
     url = this.__endpoint(url);
-    options.credentials = 'include';
+
     return (dispatch) => {
-      dispatch({type:'API_START'});
-      return new Promise((resolve, reject) => {
-        fetch(url, options).then(res => {
-          const decoder = new TextDecoder();
 
-          // FIXME: https://stackoverflow.com/questions/19876002/percentage-progress-of-an-ajax-request-with-transfer-encoding-chunked
-          const total = 500;
-
-          let reader = res.body.getReader();
-          let chunk = '';
-
-          const progress = (result) => {
-            if (result.done) {
-              (res.status >= 400) ? reject(JSON.parse(chunk)) : resolve(JSON.parse(chunk));
-              return this.__api_end(dispatch);
-            }
-            chunk += decoder.decode(result.value, {stream:true});
-            dispatch({type: 'API_PROGRESS', data:{received:chunk.length, total}});
-            return reader.read().then(progress);
-          };
-          reader.read().then(progress);
-
-        }).catch(err => {
-          reject(err);
-          return this.__api_end(dispatch);
-        });
+      let xhr = new XMLHttpRequest();
+      const p = new Promise((resolve, reject) => {
+        xhr.onreadystatechange = () => {
+          if (xhr.readyState != XMLHttpRequest.DONE) return;
+          if (xhr.status >= 400) {
+            this.__api_end(dispatch, id);
+            return reject({status: xhr.status, message: xhr.statusText});
+          }
+          resolve(JSON.parse(xhr.responseText));
+          return this.__api_end(dispatch, id);
+        };
       });
+
+      xhr.upload.onprogress = (ev) => {
+        dispatch({type: 'API_PROGRESS', data:{id, loaded:ev.loaded, total: ev.total}});
+      };
+
+      xhr.open(options.method, url, true);
+      xhr.withCredentials = true;
+      (options.body) ? xhr.send(options.body) : xhr.send();
+      dispatch({type:'API_START', data:{id}});
+
+      return p;
     };
   }
   __get(url, options = {}) {
@@ -77,10 +76,10 @@ export default class APIClient {
     return [this.base, this.version, url.replace(/^\//, '')].join('/');
   }
 
-  __api_end(dispatch) {
-    dispatch({type:'API_COMPLETED'});
+  __api_end(dispatch, id) {
+    dispatch({type:'API_COMPLETED', data:{id}});
     setTimeout(() => {
-      dispatch({type:'API_END'});
+      dispatch({type:'API_END', data:{id}});
     }, 400);
   }
 }

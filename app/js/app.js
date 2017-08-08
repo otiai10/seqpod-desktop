@@ -27115,11 +27115,10 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var initialState = {
-  loading: 0,
-  total: 1000,
-  received: 0,
-  progress: 0
+  requests: {}
 };
 
 exports.default = function () {
@@ -27128,13 +27127,22 @@ exports.default = function () {
 
   switch (action.type) {
     case 'API_START':
-      return _extends({}, state, { loading: state.loading + 1 });
+      return _extends({}, state, {
+        requests: _extends({}, state.requests, _defineProperty({}, action.data.id, { loaded: 0, total: 1000 }))
+      });
     case 'API_PROGRESS':
-      return _extends({}, state, { total: action.data.total, received: action.data.received, progress: action.data.received / action.data.total });
+      return _extends({}, state, {
+        requests: _extends({}, state.requests, _defineProperty({}, action.data.id, { loaded: action.data.loaded, total: action.data.total }))
+      });
     case 'API_COMPLETED':
-      return _extends({}, state, state.loading == 1 ? { progress: 1 } : null);
+      return _extends({}, state, {
+        requests: _extends({}, state.requests, _defineProperty({}, action.data.id, { loaded: state.requests[action.data.id].total, total: state.requests[action.data.id].total }))
+      });
     case 'API_END':
-      return _extends({}, state, { loading: state.loading - 1 });
+      delete state.requests[action.data.id];
+      return _extends({}, state, {
+        requests: _extends({}, state.requests)
+      });
   }
   return state;
 };
@@ -33157,35 +33165,35 @@ var APIClient = function () {
 
       var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
+
+      var id = Date.now() + Math.random();
       url = this.__endpoint(url);
-      options.credentials = 'include';
+
       return function (dispatch) {
-        dispatch({ type: 'API_START' });
-        return new Promise(function (resolve, reject) {
-          fetch(url, options).then(function (res) {
-            var decoder = new TextDecoder();
 
-            // FIXME: https://stackoverflow.com/questions/19876002/percentage-progress-of-an-ajax-request-with-transfer-encoding-chunked
-            var total = 500;
-
-            var reader = res.body.getReader();
-            var chunk = '';
-
-            var progress = function progress(result) {
-              if (result.done) {
-                res.status >= 400 ? reject(JSON.parse(chunk)) : resolve(JSON.parse(chunk));
-                return _this.__api_end(dispatch);
-              }
-              chunk += decoder.decode(result.value, { stream: true });
-              dispatch({ type: 'API_PROGRESS', data: { received: chunk.length, total: total } });
-              return reader.read().then(progress);
-            };
-            reader.read().then(progress);
-          }).catch(function (err) {
-            reject(err);
-            return _this.__api_end(dispatch);
-          });
+        var xhr = new XMLHttpRequest();
+        var p = new Promise(function (resolve, reject) {
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState != XMLHttpRequest.DONE) return;
+            if (xhr.status >= 400) {
+              _this.__api_end(dispatch, id);
+              return reject({ status: xhr.status, message: xhr.statusText });
+            }
+            resolve(JSON.parse(xhr.responseText));
+            return _this.__api_end(dispatch, id);
+          };
         });
+
+        xhr.upload.onprogress = function (ev) {
+          dispatch({ type: 'API_PROGRESS', data: { id: id, loaded: ev.loaded, total: ev.total } });
+        };
+
+        xhr.open(options.method, url, true);
+        xhr.withCredentials = true;
+        options.body ? xhr.send(options.body) : xhr.send();
+        dispatch({ type: 'API_START', data: { id: id } });
+
+        return p;
       };
     }
   }, {
@@ -33211,10 +33219,10 @@ var APIClient = function () {
     }
   }, {
     key: '__api_end',
-    value: function __api_end(dispatch) {
-      dispatch({ type: 'API_COMPLETED' });
+    value: function __api_end(dispatch, id) {
+      dispatch({ type: 'API_COMPLETED', data: { id: id } });
       setTimeout(function () {
-        dispatch({ type: 'API_END' });
+        dispatch({ type: 'API_END', data: { id: id } });
       }, 400);
     }
   }]);
@@ -34034,22 +34042,22 @@ var Loading = (_dec = (0, _reactRedux.connect)(function (_ref) {
   _createClass(Loading, [{
     key: 'render',
     value: function render() {
-      var _props = this.props,
-          loading = _props.loading,
-          progress = _props.progress;
+      var requests = this.props.requests;
 
       return _react2.default.createElement(
         'div',
-        { id: 'loading-indicator-container', className: (0, _classnames2.default)({ loading: loading > 0 }) },
-        _react2.default.createElement('div', { id: 'loading-indicator', style: { width: progress * 1000 + '%' } })
+        { id: 'loading-indicator-container', className: (0, _classnames2.default)({ loading: Object.keys(requests).length > 0 }) },
+        Object.keys(requests).map(function (id) {
+          var progress = requests[id].loaded / requests[id].total;
+          return _react2.default.createElement('div', { key: id, className: 'loading-indicator', style: { width: progress * 100 + '%' } });
+        })
       );
     }
   }]);
 
   return Loading;
 }(_react.Component), _class2.propTypes = {
-  loading: _propTypes2.default.number.isRequired,
-  progress: _propTypes2.default.any.isRequired
+  requests: _propTypes2.default.object.isRequired
 }, _temp)) || _class);
 exports.default = Loading;
 

@@ -15,14 +15,13 @@ div#loading-indicator-container {
   bottom: 0;
   left: 0;
   right: 0;
-  height: $height;
   &.loading {
     display: block;
   }
   &:not(.loading) {
     display: none;
   }
-  >#loading-indicator {
+  >.loading-indicator {
     transition: all 1s;
     height: $height;
 

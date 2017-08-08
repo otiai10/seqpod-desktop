@@ -6,15 +6,17 @@ import cn from 'classnames';
 @connect(({api}) => api)
 export default class Loading extends Component {
   render() {
-    const {loading, progress} = this.props;
+    const {requests} = this.props;
     return (
-      <div id="loading-indicator-container" className={cn({loading:loading > 0})}>
-        <div id="loading-indicator" style={{width: `${progress * 1000}%`}} />
+      <div id="loading-indicator-container" className={cn({loading:Object.keys(requests).length > 0})}>
+        {Object.keys(requests).map(id => {
+          const progress = requests[id].loaded / requests[id].total;
+          return <div key={id} className="loading-indicator" style={{width: `${progress * 100}%`}} />;
+        })}
       </div>
     );
   }
   static propTypes = {
-    loading: PropTypes.number.isRequired,
-    progress: PropTypes.any.isRequired,
+    requests: PropTypes.object.isRequired,
   }
 }
