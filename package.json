@@ -8,6 +8,7 @@
     "build": "webpack",
     "build-release": "API_URL=http://52.63.157.130:8080 webpack",
     "start": "electron .",
+    "beta": "electron-packager . SeqPod --platform=darwin --arch=x64 --version=0.0.1 --out=builds --icon=seqpod.icns --overwrite",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -39,10 +40,12 @@
     "classnames": "^2.2.5",
     "css-loader": "^0.28.4",
     "electron": "^1.6.11",
+    "electron-packager": "^9.0.0",
     "eslint": "^4.1.1",
     "eslint-plugin-react": "^7.1.0",
     "extract-text-webpack-plugin": "^2.1.2",
     "file-loader": "^0.11.2",
+    "fs-extra": "^4.0.1",
     "history": "^4.6.3",
     "humanize-plus": "^1.8.2",
     "node-sass": "^4.5.3",
