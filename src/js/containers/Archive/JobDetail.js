@@ -5,6 +5,8 @@ import {connect} from 'react-redux';
 // Components
 import {Link} from 'react-router-dom';
 
+import Job from '../../models/Job';
+
 // Actions
 import {
   api_get_job,
@@ -34,6 +36,7 @@ export default class JobDetail extends Component {
     this.props.api_get_job(id).then(({job}) => {
       this.setState({job});
       if (!job.finished_at) setTimeout(() => this._fetchJob(), 4000);
+      else Job.find(job._id).update(job);
     });
   }
   render() {

@@ -5,4 +5,11 @@
 @import "./theme/tables.scss";
 @import "./components/fastq-drop.scss";
 @import "./components/job-detail.scss";
+@import "./components/job-index.scss";
 @import "./components/loading-indicator.scss";
+
+// Extends
+.list-group-item {
+  display: flex;
+  align-items: center;
+}

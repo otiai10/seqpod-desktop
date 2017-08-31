@@ -2497,6 +2497,20 @@ div.section {
       margin: 0;
       white-space: nowrap; }
 
+div.circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 18px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+  div.circle > .icon {
+    font-size: 2em;
+    color: white; }
+  div.circle.success {
+    background-color: #5cb85c; }
+
 @keyframes progressbar {
   from {
     background-position: 40px 0; }
@@ -2518,3 +2532,7 @@ div#loading-indicator-container {
     background-image: linear-gradient(-45deg, transparent 25%, #326394 25%, #326394 50%, transparent 50%, transparent 75%, #326394 75%, #326394);
     background-size: 6px 6px;
     animation: progressbar 2s linear infinite; }
+
+.list-group-item {
+  display: flex;
+  align-items: center; }

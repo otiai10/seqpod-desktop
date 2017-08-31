@@ -32,7 +32,7 @@ class App extends Component {
           <Router hashType="noslash" history={syncHistoryWithStore(createBrowserHistory(), store)}>
             <div className="pane-group">
               <Sidebar />
-              <div className="pane padded app">
+              <div className="pane">
                 <Route exact path="/"        component={Home} />
                 <Route path="/archive/:job"  component={JobDetail} />
                 <Route exact path="/archive" component={Archive} />
