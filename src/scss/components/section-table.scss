@@ -1,0 +1,35 @@
+table.section-table {
+  width: initial;
+  * {
+    border: none;
+  }
+  >thead {
+    background-color: transparent;
+    * {
+      cursor: pointer;
+    }
+    >tr {
+      >th.section-toggle {
+        width: 8px;
+        >.icon.icon-play {
+          display: block;
+          &.open {
+            transform: rotate(90deg);
+          }
+        }
+      }
+      >th.section-title {
+      }
+    }
+  }
+  >tbody {
+    tr.section-row {
+      >th.row-label {
+        text-align: right;
+      }
+      >td.row-data {
+        padding: 2px 0px;
+      }
+    }
+  }
+}

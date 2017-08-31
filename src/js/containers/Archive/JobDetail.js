@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 // Components
-import {Link} from 'react-router-dom';
+import SectionTable from '../../components/table/SectionTable';
+import {StatusBadge} from './StatusLabel';
 
 import Job from '../../models/Job';
 
@@ -43,54 +44,68 @@ export default class JobDetail extends Component {
     if (this.state.job == null) return null;
     const job = this.state.job;
     return (
-      <div className="job-detail container">
-        {this._getNavigationHeader()}
-        <h1>{job._id}</h1>
-        <table className="dl-horizontal">
-          <tbody>
-            <tr><th>Created:</th><td>{new Date(job.created_at).toLocaleString()}</td></tr>
-          </tbody>
-          <tbody>
-            <tr><th>Reference:</th><td>GRCh37 (default)</td></tr>
-            <tr><th>Read 1:</th><td>{job.resource.reads[0]}</td></tr>
-            <tr><th>Read 2:</th><td>{job.resource.reads[1]}</td></tr>
-          </tbody>
-          <tbody>
-            <tr><th>Status:</th><td>{this._getStatusLabel()}</td></tr>
-          </tbody>
-        </table>
+      <div className="padded job-detail container">
+        <div className="row overview">
+          <StatusBadge status={job.status} />
+          <div>
+            <h1>{job._id}</h1>
+            <span>Created: {new Date(job.created_at).toLocaleString()}</span>
+          </div>
+        </div>
 
-        {this._renderResultFiles()}
-        {this._renderStdOut()}
-        {this._renderStdErr()}
-        {this._renderAppLog()}
-        {this._renderinspection()}
+        <SectionTable
+          title="General"
+          rows={[
+            {label:'Workflow',  data: `${job.workflow.join(' -> ')}`},
+            {label:'Reference', data: 'GRCh37 (default)'},
+            {label:'Inputs',    data: job.resource.reads.join(',')},
+            {label:'Created',   data: (new Date(job.created_at).toLocaleString())},
+            {label:'Started',   data: (new Date(job.started_at).toLocaleString())},
+            {label:'Finished',  data: (new Date(job.finished_at).toLocaleString())},
+            {label:'Status',    data: job.status},
+            {label:'Errors',    data: job.errors.join(',') || 'N/A'},
+          ]}
+          open={true}
+        />
 
-      </div>
-    );
-  }
-  _renderResultFiles() {
-    const onclick = () => this.setState({open: {...this.state.open, result: !this.state.open.result}});
-    const h = <h3 onClick={onclick}>{this.state.open.result ? '- Result Files' : '▼ Result Files'}</h3>;
-    return (
-      <div className="section">
-        {h}
-        {this.state.open.result ? <table>
-          <tbody>
-            {this.state.job.results.map(result => {
-              const url = `${process.env.API_URL}/v0/jobs/${this.state.job._id}/results/${result}`;
-              return (
-                <tr key={result}>
-                  {/* <Link to={`/archive/${this.state.job._id}/results/${result}`}>{result}</Link> */}
-                  <td>{result}</td>
-                  <td><span className="icon icon-download" onClick={() => this._saveResultFile(url, result)}></span></td>
-                  <td><span className="icon icon-upload-cloud"></span></td>
-                  <td><span className="icon icon-eye"></span></td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table> : null}
+        <SectionTable
+          title="Results"
+          rows={this.state.job.results.map(result => {
+            const url = `${process.env.API_URL}/v0/jobs/${this.state.job._id}/results/${result}`;
+            return {
+              label: result,
+              data: (
+                <div className="result-action">
+                  <div><span className="icon icon-download" onClick={() => this._saveResultFile(url, result)}></span></div>
+                  <div><span className="icon icon-upload-cloud"></span></div>
+                  <div><span className="icon icon-eye"></span></div>
+                </div>
+              ),
+            };
+          })}
+          open={this.state.job.results.length}
+        />
+
+        <SectionTable
+          title="Stdout log"
+          content={this._renderStdOut()}
+        />
+
+        <SectionTable
+          title="Stderr log"
+          content={this._renderStdErr()}
+        />
+
+        <SectionTable
+          title="Application log"
+          content={this._renderAppLog()}
+        />
+
+        <SectionTable
+          title="Inspection"
+          content={this._renderinspection()}
+        />
+
       </div>
     );
   }
@@ -101,80 +116,30 @@ export default class JobDetail extends Component {
       remote.dialog.showSaveDialog({defaultPath: name}, fpath => {
         if (!fpath) return;
         const fs = require('fs');
-        fs.writeFile(fpath, body, 'binary', err => console.log(err));
+        fs.writeFile(fpath, body, 'binary', () => {});
       });
     });
   }
   _renderStdOut() {
-    const onclick = () => this.setState({open: {...this.state.open, stdout: !this.state.open.stdout}});
-    const h = <h3 onClick={onclick}>{this.state.open.stdout ? '- Stdout Log' : '▼ Stdout Log'}</h3>;
-    return (
-      <div className="section">
-        {h}
-        {this.state.open.stdout ? <div className="stdio">
-          {this.state.job.stdout.split('\n').map((line, i) => <p key={i} className="line">{line}</p>)}
-        </div> : null}
-      </div>
-    );
+    return <div className="stdio">
+      {this.state.job.stdout.split('\n').map((line, i) => <p key={i} className="line">{line}</p>)}
+    </div>;
   }
   _renderStdErr() {
-    const onclick = () => this.setState({open: {...this.state.open, stderr: !this.state.open.stderr}});
-    const h = <h3 onClick={onclick}>{this.state.open.stderr ? '- Stderr Log' : '▼ Stderr Log'}</h3>;
-    return (
-      <div className="section">
-        {h}
-        {this.state.open.stderr ? <div className="stdio">
-          {this.state.job.stderr.split('\n').map((line, i) => <p key={i} className="line">{line}</p>)}
-        </div> : null}
-      </div>
-    );
+    return <div className="stdio">
+      {this.state.job.stderr.split('\n').map((line, i) => <p key={i} className="line">{line}</p>)}
+    </div>;
   }
   _renderAppLog() {
-    const onclick = () => this.setState({open: {...this.state.open, applog: !this.state.open.applog}});
-    const h = <h3 onClick={onclick}>{this.state.open.applog ? '- Application Log' : '▼ Application Log'}</h3>;
-    return (
-      <div className="section">
-        {h}
-        {this.state.open.applog ? <div className="stdio">
-          {this.state.job.applog.split('\n').map((line, i) => <p key={i} className="line">{line}</p>)}
-        </div> : null}
-      </div>
-    );
+    return <div className="stdio">
+      {this.state.job.applog.split('\n').map((line, i) => <p key={i} className="line">{line}</p>)}
+    </div>;
   }
   _renderinspection() {
-    const onclick = () => this.setState({open: {...this.state.open, inspection: !this.state.open.inspection}});
-    const h = <h3 onClick={onclick}>{this.state.open.inspection ? '- Job inspection' : '▼ Job inspection'}</h3>;
-    return (
-      <div className="section">
-        {h}
-        {this.state.open.inspection ? <code className="inspect"><pre>{JSON.stringify(this.state.job, null, 2)}</pre></code> : null}
-      </div>
-    );
+    return <code className="inspect"><pre>{JSON.stringify(this.state.job, null, 2)}</pre></code>;
   }
   _getErrors() {
     return this.state.job.errors.map(err => <code key={err}>{err}</code>);
-  }
-  _getStatusLabel() {
-    const {started_at, finished_at, errors = []} = this.state.job;
-    if (finished_at) {
-      if (errors.length == 0) {
-        return <span className="label success">Finished</span>;
-      } else {
-        return <span className="label danger">Errored</span>;
-      }
-    }
-    if (started_at) {
-      return <span className="label primary">Running</span>;
-    }
-    return <span className="label info">Waiting for worker node</span>;
-  }
-  _getNavigationHeader() {
-    return (
-      <div className="row navigation-header">
-        <div><Link to="/archive">&lt; Back to list</Link></div>
-        <div className="fill"></div>
-      </div>
-    );
   }
   static propTypes = {
     match: PropTypes.shape({

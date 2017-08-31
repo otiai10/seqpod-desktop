@@ -2450,34 +2450,37 @@ div.accepted-fastq {
     margin: 0;
     font-size: 1.4em; }
 
-div.job-detail > h1 {
-  margin: 0;
-  padding: 0;
-  font-size: 2em; }
+div.job-detail .row {
+  display: flex;
+  align-items: center; }
 
-div.job-detail > table {
-  font-size: 1.8em; }
+div.job-detail > .overview {
+  margin-bottom: 16px; }
+  div.job-detail > .overview .circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+    margin-right: 16px; }
+    div.job-detail > .overview .circle > .icon {
+      font-size: 2.8em; }
+  div.job-detail > .overview h1 {
+    font-size: 2em;
+    margin: 0; }
 
-div.job-detail span.label {
-  border-radius: 8px;
-  padding: 8px 16px;
-  color: white;
-  font-size: 0.8em; }
-  div.job-detail span.label.default {
-    background-color: #777; }
-  div.job-detail span.label.info {
-    background-color: #5bc0de; }
-  div.job-detail span.label.primary {
-    background-color: #337ab7; }
-  div.job-detail span.label.success {
-    background-color: #5cb85c; }
-  div.job-detail span.label.danger {
-    background-color: #d9534f; }
+div.job-detail .result-action {
+  display: flex; }
+  div.job-detail .result-action > div {
+    width: 24px;
+    cursor: pointer; }
 
-div.job-detail > div.navigation-header {
-  font-size: 1.2em; }
-  div.job-detail > div.navigation-header a {
-    color: #337ab7; }
+div.job-detail div.stdio {
+  background-color: #21262b;
+  color: #d8d8da;
+  padding: 8px;
+  overflow-x: scroll; }
+  div.job-detail div.stdio > p.line {
+    margin: 0;
+    white-space: nowrap; }
 
 code.inspect > pre {
   padding: 4px;
@@ -2488,14 +2491,6 @@ div.section {
   margin-bottom: 8px; }
   div.section > h3 {
     cursor: pointer; }
-  div.section div.stdio {
-    background-color: #21262b;
-    color: #d8d8da;
-    padding: 8px;
-    overflow-x: scroll; }
-    div.section div.stdio > p.line {
-      margin: 0;
-      white-space: nowrap; }
 
 div.circle {
   width: 36px;
@@ -2532,6 +2527,25 @@ div#loading-indicator-container {
     background-image: linear-gradient(-45deg, transparent 25%, #326394 25%, #326394 50%, transparent 50%, transparent 75%, #326394 75%, #326394);
     background-size: 6px 6px;
     animation: progressbar 2s linear infinite; }
+
+table.section-table {
+  width: initial; }
+  table.section-table * {
+    border: none; }
+  table.section-table > thead {
+    background-color: transparent; }
+    table.section-table > thead * {
+      cursor: pointer; }
+    table.section-table > thead > tr > th.section-toggle {
+      width: 8px; }
+      table.section-table > thead > tr > th.section-toggle > .icon.icon-play {
+        display: block; }
+        table.section-table > thead > tr > th.section-toggle > .icon.icon-play.open {
+          transform: rotate(90deg); }
+  table.section-table > tbody tr.section-row > th.row-label {
+    text-align: right; }
+  table.section-table > tbody tr.section-row > td.row-data {
+    padding: 2px 0px; }
 
 .list-group-item {
   display: flex;
