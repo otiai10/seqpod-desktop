@@ -75,12 +75,32 @@ export default class JobDetail extends Component {
         {this.state.open.result ? <table>
           <tbody>
             {this.state.job.results.map(result => {
-              return <tr key={result}><td colSpan="2"><Link to={`/archive/${this.state.job._id}/results/${result}`}>{result}</Link></td></tr>;
+              const url = `${process.env.API_URL}/v0/jobs/${this.state.job._id}/results/${result}`;
+              return (
+                <tr key={result}>
+                  {/* <Link to={`/archive/${this.state.job._id}/results/${result}`}>{result}</Link> */}
+                  <td>{result}</td>
+                  <td><span className="icon icon-download" onClick={() => this._saveResultFile(url, result)}></span></td>
+                  <td><span className="icon icon-upload-cloud"></span></td>
+                  <td><span className="icon icon-eye"></span></td>
+                </tr>
+              );
             })}
           </tbody>
         </table> : null}
       </div>
     );
+  }
+  _saveResultFile(url, name) {
+    const request = require('request');
+    request(url, {encoding:'binary'}, (err, res, body) => {
+      const remote = require('electron').remote;
+      remote.dialog.showSaveDialog({defaultPath: name}, fpath => {
+        if (!fpath) return;
+        const fs = require('fs');
+        fs.writeFile(fpath, body, 'binary', err => console.log(err));
+      });
+    });
   }
   _renderStdOut() {
     const onclick = () => this.setState({open: {...this.state.open, stdout: !this.state.open.stdout}});

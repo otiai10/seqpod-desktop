@@ -36,7 +36,7 @@ module.exports = [
     plugins: plugins,
   },
   {
-    target: 'web',
+    target: 'electron',
     entry: {
       app: './src/js/entrypoints/app.js',
     },
