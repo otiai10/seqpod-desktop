@@ -24159,10 +24159,17 @@ var StatusBadge = exports.StatusBadge = (_temp = _class = function (_Component) 
           _react2.default.createElement('span', { className: 'icon icon-clock' })
         );
       }
+      if (this.props.status == 'running') {
+        return _react2.default.createElement(
+          'div',
+          { className: 'circle', style: { backgroundColor: 'coral' } },
+          _react2.default.createElement('span', { className: 'icon icon-arrows-ccw spinning' })
+        );
+      }
       return _react2.default.createElement(
         'div',
-        { className: 'circle', style: { backgroundColor: 'coral' } },
-        this.props.status
+        { className: 'circle', style: { backgroundColor: 'grey' } },
+        _react2.default.createElement('span', { className: 'icon icon-minus' })
       );
     }
   }]);
@@ -49076,9 +49083,10 @@ var JobDetail = (_dec = (0, _reactRedux.connect)(function (_ref) {
         var job = _ref2.job;
 
         _this2.setState({ job: job });
+        _Job2.default.find(job._id).update(job);
         if (!job.finished_at) setTimeout(function () {
           return _this2._fetchJob();
-        }, 4000);else _Job2.default.find(job._id).update(job);
+        }, 4000);
       });
     }
   }, {

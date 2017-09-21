@@ -24,9 +24,16 @@ export class StatusBadge extends Component {
         </div>
       );
     }
+    if (this.props.status == 'running') {
+      return (
+        <div className="circle" style={{backgroundColor:'coral'}}>
+          <span className="icon icon-arrows-ccw spinning" />
+        </div>
+      );
+    }
     return (
-      <div className="circle" style={{backgroundColor:'coral'}}>
-        {this.props.status}
+      <div className="circle" style={{backgroundColor:'grey'}}>
+        <span className="icon icon-minus" />
       </div>
     );
   }

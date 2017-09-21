@@ -36,8 +36,8 @@ export default class JobDetail extends Component {
     const id = this.props.match.params.job;
     this.props.api_get_job(id).then(({job}) => {
       this.setState({job});
+      Job.find(job._id).update(job);
       if (!job.finished_at) setTimeout(() => this._fetchJob(), 4000);
-      else Job.find(job._id).update(job);
     });
   }
   render() {

@@ -2365,6 +2365,18 @@ div.container {
     display: flex;
     flex-direction: column; }
 
+@keyframes spinning {
+  0% {
+    transform: rotate(0deg); }
+  100% {
+    transform: rotate(-360deg); } }
+
+.icon.spinning {
+  animation-name: spinning;
+  animation-duration: 2s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite; }
+
 .btn.normal {
   background-color: white;
   color: #202020;
