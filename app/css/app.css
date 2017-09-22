@@ -2540,6 +2540,12 @@ div#loading-indicator-container {
     background-size: 6px 6px;
     animation: progressbar 2s linear infinite; }
 
+@keyframes appear {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
 table.section-table {
   width: initial; }
   table.section-table.full-width {
@@ -2560,10 +2566,18 @@ table.section-table {
           transform: rotate(90deg); }
     table.section-table > thead > tr > th.section-title {
       font-weight: bold; }
-  table.section-table > tbody tr.section-row > th.row-label {
-    text-align: right; }
-  table.section-table > tbody tr.section-row > td.row-data {
-    padding: 2px 0px; }
+  table.section-table > tbody {
+    opacity: 0;
+    display: none; }
+    table.section-table > tbody.visible {
+      display: table-row-group;
+      animation-name: appear;
+      animation-duration: 0.2s;
+      opacity: 1; }
+    table.section-table > tbody tr.section-row > th.row-label {
+      text-align: right; }
+    table.section-table > tbody tr.section-row > td.row-data {
+      padding: 2px 0px; }
 
 .list-group-item {
   display: flex;

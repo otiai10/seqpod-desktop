@@ -49357,7 +49357,7 @@ var SectionTable = (_temp = _class = function (_Component) {
           ),
           _react2.default.createElement(
             'tbody',
-            { style: { display: this.state.open ? '' : 'none' } },
+            { className: (0, _classnames2.default)({ visible: this.state.open }) },
             this.props.content ? this._renderContent() : this.props.rows.map(this._renderRowForIndex.bind(this))
           )
         ),

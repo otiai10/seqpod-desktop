@@ -1,3 +1,13 @@
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 table.section-table {
   &.full-width {
     width: 100%;
@@ -29,6 +39,14 @@ table.section-table {
     }
   }
   >tbody {
+    opacity: 0;
+    display: none;
+    &.visible {
+      display: table-row-group;
+      animation-name: appear;
+      animation-duration: 0.2s;
+      opacity: 1;
+    }
     tr.section-row {
       >th.row-label {
         text-align: right;

@@ -23,7 +23,7 @@ export default class SectionTable extends Component {
               <td>{/* */}</td>
             </tr>
           </thead>
-          <tbody style={{display: this.state.open ? '' : 'none'}}>
+          <tbody className={cn({visible: this.state.open})}>
             {this.props.content ? this._renderContent() : this.props.rows.map(this._renderRowForIndex.bind(this))}
           </tbody>
         </table>
