@@ -1,16 +1,21 @@
 table.section-table {
+  &.full-width {
+    width: 100%;
+    table-layout: fixed;
+  }
   width: initial;
   * {
     border: none;
   }
   >thead {
     background-color: transparent;
+    border-top: thin solid black;
     * {
       cursor: pointer;
     }
     >tr {
       >th.section-toggle {
-        width: 8px;
+        width: 36px;
         >.icon.icon-play {
           display: block;
           &.open {
@@ -19,6 +24,7 @@ table.section-table {
         }
       }
       >th.section-title {
+        font-weight: bold;
       }
     }
   }

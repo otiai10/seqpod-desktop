@@ -2542,18 +2542,24 @@ div#loading-indicator-container {
 
 table.section-table {
   width: initial; }
+  table.section-table.full-width {
+    width: 100%;
+    table-layout: fixed; }
   table.section-table * {
     border: none; }
   table.section-table > thead {
-    background-color: transparent; }
+    background-color: transparent;
+    border-top: thin solid black; }
     table.section-table > thead * {
       cursor: pointer; }
     table.section-table > thead > tr > th.section-toggle {
-      width: 8px; }
+      width: 36px; }
       table.section-table > thead > tr > th.section-toggle > .icon.icon-play {
         display: block; }
         table.section-table > thead > tr > th.section-toggle > .icon.icon-play.open {
           transform: rotate(90deg); }
+    table.section-table > thead > tr > th.section-title {
+      font-weight: bold; }
   table.section-table > tbody tr.section-row > th.row-label {
     text-align: right; }
   table.section-table > tbody tr.section-row > td.row-data {

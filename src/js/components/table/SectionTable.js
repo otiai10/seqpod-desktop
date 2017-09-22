@@ -12,20 +12,23 @@ export default class SectionTable extends Component {
   }
   render() {
     return (
-      <table className="section-table">
-        <thead>
-          <tr onClick={() => this.setState({open: !this.state.open})}>
-            <th className="section-toggle">
-              <span className={cn('icon','icon-play',{open:this.state.open})}/>
-            </th>
-            <th className="section-title">{this.props.title}:</th>
-            <td>{/* */}</td>
-          </tr>
-        </thead>
-        <tbody style={{display: this.state.open ? '' : 'none'}}>
-          {this.props.content ? this._renderContent() : this.props.rows.map(this._renderRowForIndex.bind(this))}
-        </tbody>
-      </table>
+      <div>
+        <table className={cn('section-table', {'full-width':this.props.fullWidth})}>
+          <thead>
+            <tr onClick={() => this.setState({open: !this.state.open})}>
+              <th className="section-toggle">
+                <span className={cn('icon','icon-play',{open:this.state.open})}/>
+              </th>
+              <th className="section-title">{this.props.title}:</th>
+              <td>{/* */}</td>
+            </tr>
+          </thead>
+          <tbody style={{display: this.state.open ? '' : 'none'}}>
+            {this.props.content ? this._renderContent() : this.props.rows.map(this._renderRowForIndex.bind(this))}
+          </tbody>
+        </table>
+        <hr />
+      </div>
     );
   }
   _renderContent() {
@@ -56,6 +59,7 @@ export default class SectionTable extends Component {
     })),
     content: PropTypes.node,
     open:  PropTypes.bool,
+    fullWidth: PropTypes.bool,
   }
   static defaultProps = {
     open: false,

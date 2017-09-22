@@ -49157,19 +49157,23 @@ var JobDetail = (_dec = (0, _reactRedux.connect)(function (_ref) {
         }),
         _react2.default.createElement(_SectionTable2.default, {
           title: 'Stdout log',
-          content: this._renderStdOut()
+          content: this._renderStdOut(),
+          fullWidth: true
         }),
         _react2.default.createElement(_SectionTable2.default, {
           title: 'Stderr log',
-          content: this._renderStdErr()
+          content: this._renderStdErr(),
+          fullWidth: true
         }),
         _react2.default.createElement(_SectionTable2.default, {
           title: 'Application log',
-          content: this._renderAppLog()
+          content: this._renderAppLog(),
+          fullWidth: true
         }),
         _react2.default.createElement(_SectionTable2.default, {
           title: 'Inspection',
-          content: this._renderinspection()
+          content: this._renderinspection(),
+          fullWidth: true
         })
       );
     }
@@ -49324,35 +49328,40 @@ var SectionTable = (_temp = _class = function (_Component) {
       var _this2 = this;
 
       return _react2.default.createElement(
-        'table',
-        { className: 'section-table' },
+        'div',
+        null,
         _react2.default.createElement(
-          'thead',
-          null,
+          'table',
+          { className: (0, _classnames2.default)('section-table', { 'full-width': this.props.fullWidth }) },
           _react2.default.createElement(
-            'tr',
-            { onClick: function onClick() {
-                return _this2.setState({ open: !_this2.state.open });
-              } },
+            'thead',
+            null,
             _react2.default.createElement(
-              'th',
-              { className: 'section-toggle' },
-              _react2.default.createElement('span', { className: (0, _classnames2.default)('icon', 'icon-play', { open: this.state.open }) })
-            ),
-            _react2.default.createElement(
-              'th',
-              { className: 'section-title' },
-              this.props.title,
-              ':'
-            ),
-            _react2.default.createElement('td', null)
+              'tr',
+              { onClick: function onClick() {
+                  return _this2.setState({ open: !_this2.state.open });
+                } },
+              _react2.default.createElement(
+                'th',
+                { className: 'section-toggle' },
+                _react2.default.createElement('span', { className: (0, _classnames2.default)('icon', 'icon-play', { open: this.state.open }) })
+              ),
+              _react2.default.createElement(
+                'th',
+                { className: 'section-title' },
+                this.props.title,
+                ':'
+              ),
+              _react2.default.createElement('td', null)
+            )
+          ),
+          _react2.default.createElement(
+            'tbody',
+            { style: { display: this.state.open ? '' : 'none' } },
+            this.props.content ? this._renderContent() : this.props.rows.map(this._renderRowForIndex.bind(this))
           )
         ),
-        _react2.default.createElement(
-          'tbody',
-          { style: { display: this.state.open ? '' : 'none' } },
-          this.props.content ? this._renderContent() : this.props.rows.map(this._renderRowForIndex.bind(this))
-        )
+        _react2.default.createElement('hr', null)
       );
     }
   }, {
@@ -49403,7 +49412,8 @@ var SectionTable = (_temp = _class = function (_Component) {
     data: _propTypes2.default.node.isRequired
   })),
   content: _propTypes2.default.node,
-  open: _propTypes2.default.bool
+  open: _propTypes2.default.bool,
+  fullWidth: _propTypes2.default.bool
 }, _class.defaultProps = {
   open: false,
   rows: [],

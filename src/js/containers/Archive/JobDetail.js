@@ -89,21 +89,25 @@ export default class JobDetail extends Component {
         <SectionTable
           title="Stdout log"
           content={this._renderStdOut()}
+          fullWidth={true}
         />
 
         <SectionTable
           title="Stderr log"
           content={this._renderStdErr()}
+          fullWidth={true}
         />
 
         <SectionTable
           title="Application log"
           content={this._renderAppLog()}
+          fullWidth={true}
         />
 
         <SectionTable
           title="Inspection"
           content={this._renderinspection()}
+          fullWidth={true}
         />
 
       </div>
