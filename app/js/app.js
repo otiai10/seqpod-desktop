@@ -48869,7 +48869,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 /* eslint no-console:0 */
 var APIClient = function () {
   function APIClient() {
-    var url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "http://54.206.68.225:8080";
+    var url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "http://13.210.120.38:8080";
     var version = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'v0';
 
     _classCallCheck(this, APIClient);
@@ -49121,13 +49121,19 @@ var JobDetail = (_dec = (0, _reactRedux.connect)(function (_ref) {
         ),
         _react2.default.createElement(_SectionTable2.default, {
           title: 'General',
-          rows: [{ label: 'Workflow', data: '' + job.workflow.join(' -> ') }, { label: 'Reference', data: 'GRCh37 (default)' }, { label: 'Inputs', data: job.resource.reads.join(',') }, { label: 'Created', data: new Date(job.created_at).toLocaleString() }, { label: 'Started', data: new Date(job.started_at).toLocaleString() }, { label: 'Finished', data: new Date(job.finished_at).toLocaleString() }, { label: 'Status', data: job.status }, { label: 'Errors', data: job.errors.join(',') || 'N/A' }],
+          rows: [{ label: 'Workflow', data: '' + job.workflow.join(' -> ') }, { label: 'Reference', data: 'GRCh37 (default)' }, { label: 'Inputs', data: job.resource.reads.join(',') }, { label: 'Created', data: new Date(job.created_at).toLocaleString() }, { label: 'Started', data: new Date(job.started_at).toLocaleString() }, { label: 'Finished', data: new Date(job.finished_at).toLocaleString() }, { label: 'Status', data: job.status }],
           open: true
         }),
+        job.errors.length ? _react2.default.createElement(_SectionTable2.default, {
+          title: 'Errors',
+          content: this._renderErrors(),
+          fullWidth: true,
+          open: true
+        }) : null,
         _react2.default.createElement(_SectionTable2.default, {
           title: 'Results',
           rows: this.state.job.results.map(function (result) {
-            var url = "http://54.206.68.225:8080" + '/v0/jobs/' + _this3.state.job._id + '/results/' + result;
+            var url = "http://13.210.120.38:8080" + '/v0/jobs/' + _this3.state.job._id + '/results/' + result;
             return {
               label: result,
               data: _react2.default.createElement(
@@ -49189,6 +49195,21 @@ var JobDetail = (_dec = (0, _reactRedux.connect)(function (_ref) {
           fs.writeFile(fpath, body, 'binary', function () {});
         });
       });
+    }
+  }, {
+    key: '_renderErrors',
+    value: function _renderErrors() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'job-errors' },
+        this.state.job.errors.map(function (err, i) {
+          return _react2.default.createElement(
+            'blockquote',
+            { key: i, className: 'error-content' },
+            err
+          );
+        })
+      );
     }
   }, {
     key: '_renderStdOut',

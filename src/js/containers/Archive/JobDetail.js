@@ -63,10 +63,18 @@ export default class JobDetail extends Component {
             {label:'Started',   data: (new Date(job.started_at).toLocaleString())},
             {label:'Finished',  data: (new Date(job.finished_at).toLocaleString())},
             {label:'Status',    data: job.status},
-            {label:'Errors',    data: job.errors.join(',') || 'N/A'},
           ]}
           open={true}
         />
+
+        {(job.errors.length) ? (
+          <SectionTable
+            title="Errors"
+            content={this._renderErrors()}
+            fullWidth={true}
+            open={true}
+          />
+        ) : null}
 
         <SectionTable
           title="Results"
@@ -123,6 +131,11 @@ export default class JobDetail extends Component {
         fs.writeFile(fpath, body, 'binary', () => {});
       });
     });
+  }
+  _renderErrors() {
+    return <div className="job-errors">
+      {this.state.job.errors.map((err, i) => <blockquote key={i} className="error-content">{err}</blockquote>)}
+    </div>;
   }
   _renderStdOut() {
     return <div className="stdio">
