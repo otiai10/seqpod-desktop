@@ -2587,6 +2587,42 @@ table.section-table {
     table.section-table > tbody tr.section-row > td.row-data {
       padding: 2px 0px; }
 
+section.setting {
+  padding: 32px 16px 8px 16px; }
+  section.setting > div.setting-section-title {
+    display: flex;
+    align-items: center; }
+    section.setting > div.setting-section-title * {
+      cursor: pointer; }
+    section.setting > div.setting-section-title > div.arrow {
+      width: 40px;
+      text-align: center; }
+      section.setting > div.setting-section-title > div.arrow > i {
+        font-size: 2em; }
+      section.setting > div.setting-section-title > div.arrow.visible {
+        transform: rotate(90deg); }
+    section.setting > div.setting-section-title > div.setting-title > h2 {
+      margin: 0; }
+  section.setting > div.setting-section-content {
+    padding: 0 0 0 40px;
+    display: none; }
+    section.setting > div.setting-section-content.visible {
+      display: inherit; }
+  section.setting h2, section.setting h3 {
+    margin: 0; }
+  section.setting h2 {
+    font-size: 1.8em; }
+  section.setting h3 {
+    font-size: 1.2em; }
+
+div.setting-row {
+  display: flex;
+  align-items: center; }
+  div.setting-row > div.setting-row-title {
+    flex: 1; }
+  div.setting-row > div.setting-row-content {
+    flex: 3; }
+
 .list-group-item {
   display: flex;
   align-items: center; }
