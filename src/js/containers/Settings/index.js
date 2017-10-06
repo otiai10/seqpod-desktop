@@ -6,6 +6,8 @@ import {api_status} from '../../actions/api';
 import SettingSection from '../../components/settings/SettingSection';
 import SettingRow     from '../../components/settings/row/SettingRow';
 
+import AddNewWorkflow from './AddNewWorkflow';
+
 @connect(null, {
   api_status,
 })
@@ -24,8 +26,10 @@ export default class Settings extends Component {
     return(
       <div>
 
-        <SettingSection title="Workflow Registry">
-          <SettingRow title="Add New Workflow" />
+        <SettingSection title="Workflow Registry" visible={true}>
+          <SettingRow title="Add New Workflow">
+            <AddNewWorkflow />
+          </SettingRow>
         </SettingSection>
 
         <SettingSection title="AWS Cluster Settings">

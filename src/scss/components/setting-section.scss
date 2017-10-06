@@ -39,15 +39,22 @@ section.setting {
     h3 {
       font-size: 1.2em;
     }
+    .setting-description {
+      font-size: 0.8em;
+    }
+    .setting-error {
+      font-size: 0.8em;
+      color: red;
+    }
 }
 
 div.setting-row {
   display: flex;
-  align-items: center;
   &>div.setting-row-title {
     flex: 1;
   }
   &>div.setting-row-content {
     flex: 3;
+    padding-left: 24px;
   }
 }

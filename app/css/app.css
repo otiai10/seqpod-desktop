@@ -2614,14 +2614,31 @@ section.setting {
     font-size: 1.8em; }
   section.setting h3 {
     font-size: 1.2em; }
+  section.setting .setting-description {
+    font-size: 0.8em; }
+  section.setting .setting-error {
+    font-size: 0.8em;
+    color: red; }
 
 div.setting-row {
-  display: flex;
-  align-items: center; }
+  display: flex; }
   div.setting-row > div.setting-row-title {
     flex: 1; }
   div.setting-row > div.setting-row-content {
-    flex: 3; }
+    flex: 3;
+    padding-left: 24px; }
+
+dialog {
+  padding: 0;
+  border: 1px solid #bebebe;
+  border-radius: 6px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden; }
+
+div.workflow blockquote {
+  margin: 16px 0;
+  padding: 8px 16px;
+  border-left: 8px solid #d0d0d0; }
 
 .list-group-item {
   display: flex;

@@ -48,6 +48,7 @@
     "fs-extra": "^4.0.1",
     "history": "^4.6.3",
     "humanize-plus": "^1.8.2",
+    "js-yaml": "^3.10.0",
     "node-sass": "^4.5.3",
     "photonkit": "^0.1.2",
     "react": "^15.6.1",
