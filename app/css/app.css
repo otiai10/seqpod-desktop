@@ -2640,6 +2640,13 @@ div.workflow blockquote {
   padding: 8px 16px;
   border-left: 8px solid #d0d0d0; }
 
+code {
+  padding: .2rem .4rem;
+  font-size: 90%;
+  color: #bd4147;
+  background-color: #f7f7f9;
+  border-radius: .25rem; }
+
 .list-group-item {
   display: flex;
   align-items: center; }

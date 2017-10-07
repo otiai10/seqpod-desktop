@@ -26,7 +26,7 @@ export default class Settings extends Component {
     return(
       <div>
 
-        <SettingSection title="Workflow Registry" visible={true}>
+        <SettingSection title="Workflow Registry">
           <SettingRow title="Add New Workflow">
             <AddNewWorkflow />
           </SettingRow>

@@ -9,8 +9,8 @@ export default class AddNewWorkflow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      repository: 'https://github.com/otiai10/genomon-fisher',
-      // repository: '',
+      // repository: 'https://github.com/otiai10/genomon-fisher',
+      repository: '',
       dialog:     {},
       error:      '',
     };
@@ -27,8 +27,10 @@ export default class AddNewWorkflow extends Component {
         </div>
         <div className="form-group">
           <p className="setting-description">
-            You can add new workflow uploaded on both GitHub (git push) and Docker Hub (docker push),
-            by specifying GitHub repository which has <code>pod-interface.(yaml|json)</code> on
+            You can add new workflow uploaded on
+            both GitHub (<code className="code">git push</code>)
+            and Docker Hub (<code className="code">docker push</code>),
+            by specifying GitHub repository which has <code className="code">pod-interface.(yaml|json)</code> on
             top level directory of that repository.
           </p>
           <p className="setting-error">
