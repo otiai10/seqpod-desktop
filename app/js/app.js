@@ -24699,6 +24699,14 @@ var StatusBadge = exports.StatusBadge = (_temp = _class = function (_Component) 
           _react2.default.createElement('span', { className: 'icon icon-arrows-ccw spinning' })
         );
       }
+      if (this.props.status === '') {
+        // FIXME: should be set by server
+        return _react2.default.createElement(
+          'div',
+          { className: 'circle', style: { backgroundColor: 'orange' } },
+          _react2.default.createElement('span', { className: 'icon icon-upload-cloud blinking' })
+        );
+      }
       return _react2.default.createElement(
         'div',
         { className: 'circle', style: { backgroundColor: 'grey' } },

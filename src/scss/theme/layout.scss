@@ -21,3 +21,22 @@ div.container {
   animation-timing-function:   linear;
   animation-iteration-count: infinite;
 }
+
+@keyframes blinking {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.icon.blinking {
+  animation-name:            blinking;
+  animation-duration:              1s;
+  animation-timing-function:   linear;
+  animation-iteration-count: infinite;
+}

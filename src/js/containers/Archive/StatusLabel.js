@@ -31,6 +31,13 @@ export class StatusBadge extends Component {
         </div>
       );
     }
+    if (this.props.status === '') { // FIXME: should be set by server
+      return (
+        <div className="circle" style={{backgroundColor:'orange'}}>
+          <span className="icon icon-upload-cloud blinking" />
+        </div>
+      );
+    }
     return (
       <div className="circle" style={{backgroundColor:'grey'}}>
         <span className="icon icon-minus" />
