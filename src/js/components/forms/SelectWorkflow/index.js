@@ -31,7 +31,7 @@ export default class SelectWorkflow extends Component {
     );
   }
   static propTypes = {
-    workflows: PropTypes.array.isRequired,
+    workflows:      PropTypes.array.isRequired,
     commitWorkflow: PropTypes.func.isRequired,
   }
 }

@@ -2641,6 +2641,9 @@ div.workflow blockquote {
   border-left: 8px solid #d0d0d0;
   max-width: 400px; }
 
+div.file-input i {
+  color: blue; }
+
 code {
   padding: .2rem .4rem;
   font-size: 90%;
