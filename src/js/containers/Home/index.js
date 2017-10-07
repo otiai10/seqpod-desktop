@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import SelectWorkflow from '../../components/forms/SelectWorkflow';
-// import FastqDrop      from '../../components/forms/FastqDrop';
 import InputsParams   from '../../components/forms/InputsParams';
 
 import Workflow from '../../models/Workflow';
@@ -72,6 +71,7 @@ export default class Home extends Component {
       if (inputs[name].file instanceof File) files.push(inputs[name].file);
     });
     this.props.api_workspace().then(({job}) => {
+      job.status = 'uploading'; // TODO: should be set by server
       Job.create(job);
       this.context.router.history.push(`/archive/${job._id}`);
       return Promise.all([
