@@ -91,7 +91,7 @@ export default class JobDetail extends Component {
               ),
             };
           })}
-          open={this.state.job.results.length}
+          open={!!this.state.job.results.length}
         />
 
         <SectionTable

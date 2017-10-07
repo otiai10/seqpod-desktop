@@ -49103,7 +49103,7 @@ var JobDetail = (_dec = (0, _reactRedux.connect)(function (_ref) {
               )
             };
           }),
-          open: this.state.job.results.length
+          open: !!this.state.job.results.length
         }),
         _react2.default.createElement(_SectionTable2.default, {
           title: 'Stdout log',
