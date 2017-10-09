@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "webpack --watch",
     "build": "webpack",
-    "build-release": "API_URL=${SEQPOD_API_URL} webpack",
+    "build-release": "API_URL=${SEQPOD_API_URL} NODE_ENV=production webpack",
     "start": "electron .",
     "beta": "electron-packager . SeqPod --platform=darwin --arch=x64 --version=0.0.1 --out=builds --icon=assets/seqpod.icns --overwrite",
     "test": "echo \"Error: no test specified\" && exit 1"
