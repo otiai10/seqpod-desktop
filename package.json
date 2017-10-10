@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "webpack --watch",
     "build": "webpack",
-    "build-release": "API_URL=${SEQPOD_API_URL} webpack",
+    "build-release": "API_URL=${SEQPOD_API_URL} NODE_ENV=production webpack",
     "start": "electron .",
     "beta": "electron-packager . SeqPod --platform=darwin --arch=x64 --version=0.0.1 --out=builds --icon=assets/seqpod.icns --overwrite",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -48,6 +48,7 @@
     "fs-extra": "^4.0.1",
     "history": "^4.6.3",
     "humanize-plus": "^1.8.2",
+    "js-yaml": "^3.10.0",
     "node-sass": "^4.5.3",
     "photonkit": "^0.1.2",
     "react": "^15.6.1",

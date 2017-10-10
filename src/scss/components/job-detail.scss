@@ -45,7 +45,7 @@ div.job-detail {
   //     background-color: #d9534f;
   //   }
   // }
-  
+
   div.stdio {
     background-color: #21262b;
     color:            #d8d8da;
@@ -54,6 +54,19 @@ div.job-detail {
     >p.line {
       margin: 0;
       white-space: nowrap;
+    }
+  }
+  div.job-errors {
+    color: red;
+    blockquote.error-content {
+      // {{{ FIXME: "word-break" doesn't work?
+      // word-break: break-all;
+      // Using "overflow-x" instead... :(
+      overflow-x:  scroll;
+      // }}}
+      border-left: solid thick red;
+      margin:  8px 0;
+      padding: 8px;
     }
   }
 }

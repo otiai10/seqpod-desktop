@@ -1,0 +1,60 @@
+
+section.setting {
+    padding: 32px 16px 8px 16px;
+    &>div.setting-section-title {
+      * {
+        cursor:     pointer;
+      }
+      display:       flex;
+      align-items: center;
+      >div.arrow {
+        width:        40px;
+        text-align: center;
+        >i {
+          font-size: 2em;
+        }
+        &.visible {
+          transform: rotate(90deg);
+        }
+      }
+      >div.setting-title {
+        >h2 {
+          margin: 0;
+        }
+      }
+    }
+    &>div.setting-section-content {
+      padding: 0 0 0 40px;
+      display: none;
+      &.visible {
+        display: inherit;
+      }
+    }
+    h2, h3 {
+      margin: 0;
+    }
+    h2 {
+      font-size: 1.8em;
+    }
+    h3 {
+      font-size: 1.2em;
+    }
+    .setting-description {
+      font-size: 0.8em;
+    }
+    .setting-error {
+      font-size: 0.8em;
+      color: red;
+    }
+}
+
+div.setting-row {
+  display: flex;
+  &>div.setting-row-title {
+    flex: 1;
+  }
+  &>div.setting-row-content {
+    flex: 3;
+    padding-left: 24px;
+  }
+}
