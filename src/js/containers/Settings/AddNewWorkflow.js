@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import yaml from 'js-yaml';
 
 import WorkflowView from '../../components/workflow';
@@ -109,6 +109,10 @@ export default class AddNewWorkflow extends Component {
   _saveWorkflow(workflow) {
     let w = Workflow.new(workflow);
     w._id = workflow.self.name;
-    console.log('SAVE THIS', w.save(), workflow);
+    w.save();
+    this.props.refresh();
   }
+  static propTypes = {
+    refresh: PropTypes.func,
+  };
 }

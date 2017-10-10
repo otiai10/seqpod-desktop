@@ -7,6 +7,8 @@ import SettingSection from '../../components/settings/SettingSection';
 import SettingRow     from '../../components/settings/row/SettingRow';
 
 import AddNewWorkflow from './AddNewWorkflow';
+import AddedWorkflows from './AddedWorkflows';
+import Workflow from '../../models/Workflow';
 
 @connect(null, {
   api_status,
@@ -16,6 +18,7 @@ export default class Settings extends Component {
     super(props);
     this.state = {
       server: {},
+      _ts: Date.now(),
     };
   }
   componentDidMount() {
@@ -28,7 +31,10 @@ export default class Settings extends Component {
 
         <SettingSection title="Workflow Registry">
           <SettingRow title="Add New Workflow">
-            <AddNewWorkflow />
+            <AddNewWorkflow refresh={() => this.setState({_ts:Date.now()})} />
+          </SettingRow>
+          <SettingRow title="Registered Workflows">
+            <AddedWorkflows workflows={Workflow.list()} ts={this.state._ts} />
           </SettingRow>
         </SettingSection>
 
