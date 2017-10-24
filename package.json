@@ -36,7 +36,7 @@
     "babel-preset-es2015-riot": "^1.1.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
-    "chomex": "^1.0.6",
+    "chomex": "^1.0.10",
     "classnames": "^2.2.5",
     "css-loader": "^0.28.4",
     "electron": "^1.6.11",

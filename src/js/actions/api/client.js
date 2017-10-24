@@ -10,9 +10,11 @@ export default class APIClient {
   }
 
   workspace(workflow) {
-    const data = new FormData();
-    data.append('workflow', workflow);
-    return this.__post('jobs/workspace', {body:data});
+    const w = {...workflow};
+    return this.__post('jobs/workspace', {
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(w),
+    });
   }
 
   upload(job, file, name) {
@@ -48,7 +50,13 @@ export default class APIClient {
           if (xhr.readyState != XMLHttpRequest.DONE) return;
           if (xhr.status >= 400) {
             this.__api_end(dispatch, id);
-            return reject({status: xhr.status, message: xhr.statusText});
+            console.error('#2002', xhr.responseText);
+            try {
+              const response = JSON.parse(xhr.responseText);
+              return reject({status: xhr.status, ...response});
+            } catch (_) {
+              return reject({status: xhr.status, message: xhr.statusText});
+            }
           }
           resolve(JSON.parse(xhr.responseText));
           return this.__api_end(dispatch, id);

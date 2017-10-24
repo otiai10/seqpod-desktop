@@ -46946,7 +46946,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -46985,6 +46985,8 @@ var _Job2 = _interopRequireDefault(_Job);
 var _api = __webpack_require__(108);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -47028,7 +47030,12 @@ var Home = (_dec = (0, _reactRedux.connect)(null, {
       if (!workflows.length) return this._renderAlertForWorkflowEmpty();
       switch (this.state.step) {
         case 1:
-          return _react2.default.createElement(_InputsParams2.default, { workflow: this.state.workflow, sending: this.state.sending, onSubmit: this.onSubmit.bind(this) });
+          return _react2.default.createElement(_InputsParams2.default, {
+            workflow: this.state.workflow,
+            sending: this.state.sending,
+            setParameter: this.setParameter.bind(this),
+            onSubmit: this.onSubmit.bind(this)
+          });
         case 0:
         default:
           return _react2.default.createElement(_SelectWorkflow2.default, {
@@ -47041,6 +47048,16 @@ var Home = (_dec = (0, _reactRedux.connect)(null, {
     key: 'commitWorkflow',
     value: function commitWorkflow(workflow) {
       this.setState({ workflow: workflow, step: 1 });
+    }
+  }, {
+    key: 'setParameter',
+    value: function setParameter(key, value) {
+      var parameters = this.state.workflow.parameters || {};
+      this.setState({
+        workflow: this.state.workflow.update({ parameters: _extends({}, parameters, _defineProperty({}, key, _extends({}, parameters[key], {
+            value: value
+          }))) })
+      });
     }
   }, {
     key: '_renderAlertForWorkflowEmpty',
@@ -47071,25 +47088,25 @@ var Home = (_dec = (0, _reactRedux.connect)(null, {
       // ev.stopPropagation();
       // ev.preventDefault();
       var wf = this.state.workflow;
-      this.props.api_workspace(wf.self.registry.length ? wf.self.registry[0].namespace : wf._id).then(function (_ref2) {
-        var job = _ref2.job;
+      var job = {};
+      this.props.api_workspace(wf).then(function (_ref2) {
+        var _j = _ref2.job;
 
+        job = _j;
         _this2.setState({ job: job });
         job.status = 'uploading'; // TODO: should be set by server
         _Job2.default.create(job);
         // FIXME: It's not good to move job detail here to handle HTTP errors.
         _this2.context.router.history.push('/archive/' + job._id);
-        return Promise.all([Promise.resolve(job)].concat(Object.keys(inputs).map(function (name) {
+        var entries = Object.keys(inputs).map(function (name) {
           return inputs[name].file instanceof File ? { file: inputs[name].file, name: name } : null;
         }).filter(function (entry) {
           return entry != null;
-        }).map(function (entry) {
+        });
+        return Promise.all(entries.map(function (entry) {
           return _this2.props.api_upload(job, entry.file, entry.name);
-        })));
-      }).then(function (_ref3) {
-        var _ref4 = _slicedToArray(_ref3, 1),
-            job = _ref4[0];
-
+        }));
+      }).then(function () {
         return _this2.props.api_ready_job(job._id);
       }).catch(function (err) {
         console.log('#2001 [ERROR]', err);
@@ -47234,7 +47251,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _class, _temp, _class2, _temp2;
+var _class, _temp, _class2, _temp2, _class3, _temp3;
 
 var _react = __webpack_require__(2);
 
@@ -47353,28 +47370,82 @@ var FileInput = (_temp = _class = function (_Component) {
   required: _propTypes2.default.bool,
   onChange: _propTypes2.default.func.isRequired
 }, _temp);
-var InputsParams = (_temp2 = _class2 = function (_Component2) {
-  _inherits(InputsParams, _Component2);
+var Parameter = (_temp2 = _class2 = function (_Component2) {
+  _inherits(Parameter, _Component2);
+
+  function Parameter() {
+    _classCallCheck(this, Parameter);
+
+    return _possibleConstructorReturn(this, (Parameter.__proto__ || Object.getPrototypeOf(Parameter)).apply(this, arguments));
+  }
+
+  _createClass(Parameter, [{
+    key: 'render',
+    value: function render() {
+      var _this4 = this;
+
+      var _props2 = this.props,
+          form = _props2.form,
+          name = _props2.name,
+          description = _props2.description,
+          def = _props2.default;
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'form-group' },
+        _react2.default.createElement(
+          'label',
+          null,
+          _react2.default.createElement(
+            'b',
+            null,
+            name
+          ),
+          ' ',
+          _react2.default.createElement(
+            'span',
+            null,
+            description
+          )
+        ),
+        _react2.default.createElement('input', { type: form.type, className: 'form-control', defaultValue: def, name: name, onChange: function onChange(ev) {
+            return _this4.props.onChange(ev, name);
+          } })
+      );
+    }
+  }]);
+
+  return Parameter;
+}(_react.Component), _class2.propTypes = {
+  description: _propTypes2.default.string.isRequired,
+  form: _propTypes2.default.object.isRequired,
+  name: _propTypes2.default.string.isRequired,
+  onChange: _propTypes2.default.func.isRequired,
+  default: _propTypes2.default.any.isRequired
+}, _temp2);
+var InputsParams = (_temp3 = _class3 = function (_Component3) {
+  _inherits(InputsParams, _Component3);
 
   function InputsParams(props) {
     _classCallCheck(this, InputsParams);
 
-    var _this3 = _possibleConstructorReturn(this, (InputsParams.__proto__ || Object.getPrototypeOf(InputsParams)).call(this, props));
+    var _this5 = _possibleConstructorReturn(this, (InputsParams.__proto__ || Object.getPrototypeOf(InputsParams)).call(this, props));
 
-    _this3.state = {
-      inputs: _this3.props.workflow.inputs
+    _this5.state = {
+      inputs: _this5.props.workflow.inputs
     };
-    return _this3;
+    return _this5;
   }
 
   _createClass(InputsParams, [{
     key: 'render',
     value: function render() {
-      var _this4 = this;
+      var _this6 = this;
 
       var _props$workflow = this.props.workflow,
           self = _props$workflow.self,
-          inputs = _props$workflow.inputs;
+          inputs = _props$workflow.inputs,
+          parameters = _props$workflow.parameters;
 
       return _react2.default.createElement(
         'div',
@@ -47397,13 +47468,8 @@ var InputsParams = (_temp2 = _class2 = function (_Component2) {
             null,
             'Input files'
           ),
-          _react2.default.createElement(
-            'p',
-            null,
-            'Inputs should be physical files, such as FASTQ or ZIP.'
-          ),
           Object.keys(inputs).map(function (key) {
-            return _react2.default.createElement(FileInput, _extends({ onChange: _this4.onInputChange.bind(_this4), key: key, name: key }, inputs[key]));
+            return _react2.default.createElement(FileInput, _extends({ onChange: _this6.onInputChange.bind(_this6), key: key, name: key }, inputs[key]));
           })
         ),
         _react2.default.createElement(
@@ -47414,12 +47480,7 @@ var InputsParams = (_temp2 = _class2 = function (_Component2) {
             null,
             'Parameters'
           ),
-          _react2.default.createElement(
-            'p',
-            null,
-            'Parameters would be used as command line parameter in workflow.'
-          ),
-          this._renderParametersForm()
+          this._renderParametersForm(parameters)
         ),
         _react2.default.createElement(
           'div',
@@ -47441,11 +47502,27 @@ var InputsParams = (_temp2 = _class2 = function (_Component2) {
     }
   }, {
     key: '_renderParametersForm',
-    value: function _renderParametersForm() {
+    value: function _renderParametersForm(params) {
+      var _this7 = this;
+
+      if (Object.keys(params).length == 0) {
+        return _react2.default.createElement(
+          'p',
+          null,
+          'This workflow does not offer any configurable parameters.'
+        );
+      }
       return _react2.default.createElement(
-        'p',
+        'div',
         null,
-        'This workflow does not offer any configurable parameters.'
+        _react2.default.createElement(
+          'p',
+          null,
+          'Following parameters are configurable, but not necessary to be changed.'
+        ),
+        Object.keys(params).map(function (name) {
+          return _react2.default.createElement(Parameter, _extends({ onChange: _this7.onParameterChange.bind(_this7), key: name, name: name }, params[name]));
+        })
       );
     }
   }, {
@@ -47457,6 +47534,11 @@ var InputsParams = (_temp2 = _class2 = function (_Component2) {
       this.setState({ inputs: inputs });
     }
   }, {
+    key: 'onParameterChange',
+    value: function onParameterChange(ev, name) {
+      this.props.setParameter(name, ev.target.value);
+    }
+  }, {
     key: 'onSubmit',
     value: function onSubmit() {
       this.props.onSubmit({ inputs: this.state.inputs });
@@ -47464,11 +47546,12 @@ var InputsParams = (_temp2 = _class2 = function (_Component2) {
   }]);
 
   return InputsParams;
-}(_react.Component), _class2.propTypes = {
+}(_react.Component), _class3.propTypes = {
   sending: _propTypes2.default.bool,
   workflow: _propTypes2.default.object.isRequired,
-  onSubmit: _propTypes2.default.func.isRequired
-}, _temp2);
+  onSubmit: _propTypes2.default.func.isRequired,
+  setParameter: _propTypes2.default.func.isRequired
+}, _temp3);
 exports.default = InputsParams;
 
 /***/ }),
@@ -47634,7 +47717,7 @@ var Model = exports.Model = function () {
             Object.keys(dict).map(function (key) {
                 return _this2[key] = dict[key];
             });
-            return !!this.save();
+            return this.save();
         }
     }, {
         key: 'error',
@@ -47724,8 +47807,8 @@ var Model = exports.Model = function () {
             return all || this.default || {};
         }
         /**
-         * it returs all saved entities **as Models**
-         */
+        * it returs all saved entities **as Models**
+        */
 
     }, {
         key: 'all',
@@ -47814,7 +47897,7 @@ var Model = exports.Model = function () {
     }, {
         key: 'timestampID',
         value: function timestampID() {
-            return String(Date.now());
+            return Date.now();
         }
     }, {
         key: 'sequentialID',
@@ -48826,6 +48909,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -48851,9 +48936,11 @@ var APIClient = function () {
   }, {
     key: 'workspace',
     value: function workspace(workflow) {
-      var data = new FormData();
-      data.append('workflow', workflow);
-      return this.__post('jobs/workspace', { body: data });
+      var w = _extends({}, workflow);
+      return this.__post('jobs/workspace', {
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(w)
+      });
     }
   }, {
     key: 'upload',
@@ -48903,7 +48990,13 @@ var APIClient = function () {
             if (xhr.readyState != XMLHttpRequest.DONE) return;
             if (xhr.status >= 400) {
               _this.__api_end(dispatch, id);
-              return reject({ status: xhr.status, message: xhr.statusText });
+              console.error('#2002', xhr.responseText);
+              try {
+                var response = JSON.parse(xhr.responseText);
+                return reject(_extends({ status: xhr.status }, response));
+              } catch (_) {
+                return reject({ status: xhr.status, message: xhr.statusText });
+              }
             }
             resolve(JSON.parse(xhr.responseText));
             return _this.__api_end(dispatch, id);

@@ -43,7 +43,12 @@ export default class Home extends Component {
     if (!workflows.length) return this._renderAlertForWorkflowEmpty();
     switch (this.state.step) {
     case 1:
-      return <InputsParams workflow={this.state.workflow} sending={this.state.sending} onSubmit={this.onSubmit.bind(this)}/>;
+      return <InputsParams
+        workflow={this.state.workflow}
+        sending={this.state.sending}
+        setParameter={this.setParameter.bind(this)}
+        onSubmit={this.onSubmit.bind(this)}
+      />;
     case 0:
     default:
       return <SelectWorkflow
@@ -54,6 +59,18 @@ export default class Home extends Component {
   }
   commitWorkflow(workflow) {
     this.setState({workflow, step:1});
+  }
+  setParameter(key, value) {
+    const parameters = this.state.workflow.parameters || {};
+    this.setState({
+      workflow: this.state.workflow.update({parameters:{
+        ...parameters,
+        [key]: {
+          ...parameters[key],
+          value,
+        }
+      }})
+    });
   }
   _renderAlertForWorkflowEmpty() {
     return (
@@ -68,23 +85,21 @@ export default class Home extends Component {
     // ev.stopPropagation();
     // ev.preventDefault();
     const wf = this.state.workflow;
-    this.props.api_workspace(wf.self.registry.length ? wf.self.registry[0].namespace : wf._id)
-      .then(({job}) => {
+    var job = {};
+    this.props.api_workspace(wf)
+      .then(({job:_j}) => {
+        job = _j;
         this.setState({job});
         job.status = 'uploading'; // TODO: should be set by server
         Job.create(job);
         // FIXME: It's not good to move job detail here to handle HTTP errors.
         this.context.router.history.push(`/archive/${job._id}`);
+        const entries = Object.keys(inputs).map(name => (inputs[name].file instanceof File) ? {file: inputs[name].file, name: name} : null).filter(entry => entry != null);
         return Promise.all(
-          [Promise.resolve(job)].concat(
-            Object.keys(inputs)
-              .map(name => (inputs[name].file instanceof File) ? {file: inputs[name].file, name: name} : null)
-              .filter(entry => entry != null)
-              .map(entry => this.props.api_upload(job, entry.file, entry.name))
-          )
+          entries.map(entry => this.props.api_upload(job, entry.file, entry.name))
         );
       })
-      .then(([job]) => this.props.api_ready_job(job._id))
+      .then(() => this.props.api_ready_job(job._id))
       .catch(err => {
         console.log('#2001 [ERROR]', err);
         this.setState({sending:false});

@@ -32,6 +32,25 @@ class FileInput extends Component {
   };
 }
 
+class Parameter extends Component {
+  render() {
+    const {form, name, description, default: def} = this.props;
+    return (
+      <div className="form-group">
+        <label><b>{name}</b> <span>{description}</span></label>
+        <input type={form.type} className="form-control" defaultValue={def} name={name} onChange={ev => this.props.onChange(ev, name)} />
+      </div>
+    );
+  }
+  static propTypes = {
+    description: PropTypes.string.isRequired,
+    form:        PropTypes.object.isRequired,
+    name:        PropTypes.string.isRequired,
+    onChange:    PropTypes.func.isRequired,
+    default:     PropTypes.any.isRequired,
+  }
+}
+
 export default class InputsParams extends Component {
   constructor(props) {
     super(props);
@@ -40,7 +59,7 @@ export default class InputsParams extends Component {
     };
   }
   render() {
-    const {workflow:{self, inputs}} = this.props;
+    const {workflow:{self, inputs, parameters}} = this.props;
     return (
       <div className="padded-more">
         <p>
@@ -48,13 +67,11 @@ export default class InputsParams extends Component {
         </p>
         <div>
           <h3>Input files</h3>
-          <p>Inputs should be physical files, such as FASTQ or ZIP.</p>
           {Object.keys(inputs).map(key => <FileInput onChange={this.onInputChange.bind(this)} key={key} name={key} {...inputs[key]} />)}
         </div>
         <div>
           <h3>Parameters</h3>
-          <p>Parameters would be used as command line parameter in workflow.</p>
-          {this._renderParametersForm()}
+          {this._renderParametersForm(parameters)}
         </div>
         <div>
           <button className="btn btn-default btn-large">← Back</button>
@@ -65,9 +82,17 @@ export default class InputsParams extends Component {
       </div>
     );
   }
-  _renderParametersForm() {
+  _renderParametersForm(params) {
+    if (Object.keys(params).length == 0) {
+      return (
+        <p>This workflow does not offer any configurable parameters.</p>
+      );
+    }
     return (
-      <p>This workflow does not offer any configurable parameters.</p>
+      <div>
+        <p>Following parameters are configurable, but not necessary to be changed.</p>
+        {Object.keys(params).map(name => <Parameter onChange={this.onParameterChange.bind(this)} key={name} name={name} {...params[name]} />)}
+      </div>
     );
   }
   onInputChange(ev, name) {
@@ -76,12 +101,16 @@ export default class InputsParams extends Component {
     inputs[name].file = ev.target.files[0];
     this.setState({inputs});
   }
+  onParameterChange(ev, name) {
+    this.props.setParameter(name, ev.target.value);
+  }
   onSubmit() {
     this.props.onSubmit({inputs: this.state.inputs});
   }
   static propTypes = {
-    sending:  PropTypes.bool,
-    workflow: PropTypes.object.isRequired,
-    onSubmit: PropTypes.func.isRequired,
+    sending:      PropTypes.bool,
+    workflow:     PropTypes.object.isRequired,
+    onSubmit:     PropTypes.func.isRequired,
+    setParameter: PropTypes.func.isRequired,
   }
 }
