@@ -58,7 +58,7 @@ export default class JobDetail extends Component {
           rows={[
             {label:'Workflow',  data: `${job.workflow.join(' -> ')}`},
             {label:'Reference', data: 'GRCh37 (default)'},
-            {label:'Inputs',    data: job.resource.reads.join(',')},
+            {label:'Inputs',    data: JSON.stringify(job.inputs)},
             {label:'Created',   data: (new Date(job.created_at).toLocaleString())},
             {label:'Started',   data: (new Date(job.started_at).toLocaleString())},
             {label:'Finished',  data: (new Date(job.finished_at).toLocaleString())},

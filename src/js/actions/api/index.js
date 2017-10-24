@@ -8,12 +8,12 @@ export function api_status() {
   };
 }
 
-export function api_workspace() {
-  return client.workspace();
+export function api_workspace(workflow) {
+  return client.workspace(workflow);
 }
 
-export function api_upload(job, fastq) {
-  return client.upload(job, fastq);
+export function api_upload(job, file, name) {
+  return client.upload(job, file, name);
 }
 
 export function api_get_job(id) {

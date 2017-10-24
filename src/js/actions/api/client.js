@@ -9,14 +9,17 @@ export default class APIClient {
     return this.__get('status');
   }
 
-  workspace() {
-    return this.__post('jobs/workspace');
+  workspace(workflow) {
+    const data = new FormData();
+    data.append('workflow', workflow);
+    return this.__post('jobs/workspace', {body:data});
   }
 
-  upload(job, fastq) {
+  upload(job, file, name) {
     const data = new FormData();
-    data.append('fastq', fastq);
-    return this.__post(`jobs/${job._id}/fastq`, {
+    data.append('file', file);
+    data.append('name', name);
+    return this.__post(`jobs/${job._id}/inputs/upload`, {
       body:   data,
     });
   }

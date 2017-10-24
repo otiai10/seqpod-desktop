@@ -1,3 +1,4 @@
+/* eslint no-console:0 */
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
@@ -66,25 +67,34 @@ export default class Home extends Component {
     this.setState({sending:true});
     // ev.stopPropagation();
     // ev.preventDefault();
-    let files = [];
-    Object.keys(inputs).map(name => {
-      if (inputs[name].file instanceof File) files.push(inputs[name].file);
-    });
-    this.props.api_workspace().then(({job}) => {
-      job.status = 'uploading'; // TODO: should be set by server
-      Job.create(job);
-      this.context.router.history.push(`/archive/${job._id}`);
-      return Promise.all([
-        Promise.resolve(job),
-        this.props.api_upload(job, files[0]),
-        this.props.api_upload(job, files[1]),
-      ]);
-    }).then(([job]) => {
-      this.props.api_ready_job(job._id);
-    }).catch(err => {
-      this.setState({sending:false});
-      console.log('NG!', err);
-    });
+    const wf = this.state.workflow;
+    this.props.api_workspace(wf.self.registry.length ? wf.self.registry[0].namespace : wf._id)
+      .then(({job}) => {
+        this.setState({job});
+        job.status = 'uploading'; // TODO: should be set by server
+        Job.create(job);
+        // FIXME: It's not good to move job detail here to handle HTTP errors.
+        this.context.router.history.push(`/archive/${job._id}`);
+        return Promise.all(
+          [Promise.resolve(job)].concat(
+            Object.keys(inputs)
+              .map(name => (inputs[name].file instanceof File) ? {file: inputs[name].file, name: name} : null)
+              .filter(entry => entry != null)
+              .map(entry => this.props.api_upload(job, entry.file, entry.name))
+          )
+        );
+      })
+      .then(([job]) => this.props.api_ready_job(job._id))
+      .catch(err => {
+        console.log('#2001 [ERROR]', err);
+        this.setState({sending:false});
+        // window.alert(JSON.stringify(err));
+        // Job.find(this.state.job._id).update({
+        //   finished_at: Date.now(),
+        //   status: 'error',
+        //   errors: ['#2001 [CLIENT ERROR]']
+        // });
+      });
   }
 
   static propTypes = {
