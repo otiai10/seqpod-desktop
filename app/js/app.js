@@ -47390,6 +47390,7 @@ var Parameter = (_temp2 = _class2 = function (_Component2) {
           description = _props2.description,
           def = _props2.default;
 
+      var v = typeof this.props.value != 'undefined' ? this.props.value : def;
       return _react2.default.createElement(
         'div',
         { className: 'form-group' },
@@ -47408,7 +47409,7 @@ var Parameter = (_temp2 = _class2 = function (_Component2) {
             description
           )
         ),
-        _react2.default.createElement('input', { type: form.type, className: 'form-control', defaultValue: def, name: name, onChange: function onChange(ev) {
+        _react2.default.createElement('input', { type: form.type, className: 'form-control', defaultValue: v, name: name, onChange: function onChange(ev) {
             return _this4.props.onChange(ev, name);
           } })
       );
@@ -47421,7 +47422,8 @@ var Parameter = (_temp2 = _class2 = function (_Component2) {
   form: _propTypes2.default.object.isRequired,
   name: _propTypes2.default.string.isRequired,
   onChange: _propTypes2.default.func.isRequired,
-  default: _propTypes2.default.any.isRequired
+  default: _propTypes2.default.any.isRequired,
+  value: _propTypes2.default.any
 }, _temp2);
 var InputsParams = (_temp3 = _class3 = function (_Component3) {
   _inherits(InputsParams, _Component3);
