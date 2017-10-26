@@ -8,7 +8,8 @@
     "build": "webpack",
     "build-release": "API_URL=${SEQPOD_API_URL} NODE_ENV=production webpack",
     "start": "electron .",
-    "beta": "electron-packager . SeqPod --platform=darwin --arch=x64 --version=0.0.1 --out=builds --icon=assets/seqpod.icns --overwrite",
+    "mac": "electron-packager . SeqPod --platform=darwin --arch=x64 --version=0.0.1 --out=builds/macos   --icon=assets/seqpod.icns --overwrite",
+    "win": "electron-packager . SeqPod --platform=win32  --arch=x64 --version=0.0.1 --out=builds/windows --icon=assets/seqpod.icns --overwrite",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
