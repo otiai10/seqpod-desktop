@@ -63,6 +63,7 @@ typings/
 
 # Application
 builds/*
+app/*
 
 # MacOS
 .DS_Store
