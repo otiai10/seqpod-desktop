@@ -9,7 +9,8 @@ class FileInput extends Component {
     if (form.type == 'select') {
       return (
         <div className="file-input">
-          <label><b>{name}</b> <span>{description}</span> {required ? <i>*required</i> : null}</label>
+          <label><b>{name}</b>{required ? <i>*required</i> : null}</label>
+          <blockquote>{description}</blockquote>
           <select className="form-control" name={name}>
             {form.options.map(o => <option key={o} value={o}>{o}</option>)}
           </select>
@@ -18,7 +19,8 @@ class FileInput extends Component {
     }
     return (
       <div className="form-group file-input">
-        <label><b>{name}</b> <span>{description}</span> {required ? <i>*required</i> : null}</label>
+        <label><b>{name}</b>{required ? <i>*required</i> : null}</label>
+        <blockquote>{description}</blockquote>
         <input type="file" className="form-control" name={name} onChange={ev => this.props.onChange(ev, name)}/>
       </div>
     );
@@ -37,8 +39,9 @@ class Parameter extends Component {
     const {form, name, description, default: def} = this.props;
     const v = typeof this.props.value != 'undefined' ? this.props.value : def;
     return (
-      <div className="form-group">
-        <label><b>{name}</b> <span>{description}</span></label>
+      <div className="form-group parameter-input">
+        <label><b>{name}</b></label>
+        <blockquote>{description}</blockquote>
         <input type={form.type} className="form-control" defaultValue={v} name={name} onChange={ev => this.props.onChange(ev, name)} />
       </div>
     );

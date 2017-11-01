@@ -1,5 +1,14 @@
-div.file-input {
+div.file-input, div.parameter-input {
   i {
     color: blue;
+  }
+  margin-bottom: 8px;
+  label {
+    margin: 0;
+  }
+  blockquote {
+    margin: -10px 0 2px 0;
+    border-left: 4px solid #e0e0e0;
+    padding: 4px 8px;
   }
 }
