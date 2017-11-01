@@ -84,7 +84,7 @@ export default class InputsParams extends Component {
       </div>
     );
   }
-  _renderParametersForm(params) {
+  _renderParametersForm(params = {}) {
     if (Object.keys(params).length == 0) {
       return (
         <p>This workflow does not offer any configurable parameters.</p>
