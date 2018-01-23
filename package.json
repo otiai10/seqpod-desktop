@@ -8,14 +8,12 @@
     "build": "webpack",
     "build-release": "API_URL=${SEQPOD_API_URL} NODE_ENV=production webpack",
     "start": "electron .",
-
     "clean": "rm -rf ./builds && mkdir ./builds",
     "package": "electron-packager . SeqPod --platform=${PLATFORM} --arg=x64 --version=${VERSION} --out=builds/${PLATFORM} --icon=assets/seqpod.icns --overwrite",
     "mac": "PLATFORM=darwin npm run package",
     "win": "PLATFORM=win32  npm run package && node ./scripts/windows-installer.js",
     "zip": "cd ./builds/darwin && zip -r ./SeqPod-darwin-x64.zip ./SeqPod-darwin-x64 && cd ../win32 && zip -r ./SeqPod-installer.zip ./SeqPod-installer",
     "deliver": "npm run clean && npm run mac && npm run win && npm run zip",
-
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -45,22 +43,22 @@
     "babel-preset-stage-0": "^6.24.1",
     "chomex": "^1.0.10",
     "classnames": "^2.2.5",
-    "css-loader": "^0.28.4",
-    "electron": "^1.6.11",
-    "electron-packager": "^9.0.0",
-    "electron-winstaller": "^2.6.3",
-    "eslint": "^4.1.1",
-    "eslint-plugin-react": "^7.1.0",
+    "css-loader": "^0.28.9",
+    "electron": "^1.8.1",
+    "electron-packager": "^9.1.0",
+    "electron-winstaller": "^2.6.4",
+    "eslint": "^4.16.0",
+    "eslint-plugin-react": "^7.5.1",
     "extract-text-webpack-plugin": "^2.1.2",
     "file-loader": "^0.11.2",
-    "fs-extra": "^4.0.1",
+    "fs-extra": "^4.0.3",
     "history": "^4.6.3",
     "humanize-plus": "^1.8.2",
     "js-yaml": "^3.10.0",
-    "node-sass": "^4.5.3",
+    "node-sass": "^4.7.2",
     "photonkit": "^0.1.2",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
+    "react": "^15.6.2",
+    "react-dom": "^15.6.2",
     "react-redux": "^5.0.5",
     "react-router-dom": "^4.1.1",
     "react-router-redux": "^4.0.8",
@@ -69,6 +67,6 @@
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
     "url-loader": "^0.5.9",
-    "webpack": "^3.0.0"
+    "webpack": "^3.10.0"
   }
 }
