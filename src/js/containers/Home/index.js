@@ -97,9 +97,8 @@ export default class Home extends Component {
         const entries = Object.keys(inputs).map(name => (inputs[name].file instanceof File) ? {file: inputs[name].file, name: name} : null).filter(entry => entry != null);
         return Promise.all(
           entries.map(entry => this.props.api_upload(job, entry.file, entry.name))
-        );
+        ).then(() => this.props.api_ready_job(job._id));
       })
-      .then(() => this.props.api_ready_job(job._id))
       .catch(err => {
         console.log('#2001 [ERROR]', err);
         this.setState({sending:false});

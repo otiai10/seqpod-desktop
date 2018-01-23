@@ -13,7 +13,7 @@
     "package": "electron-packager . SeqPod --platform=${PLATFORM} --arg=x64 --version=${VERSION} --out=builds/${PLATFORM} --icon=assets/seqpod.icns --overwrite",
     "mac": "PLATFORM=darwin npm run package",
     "win": "PLATFORM=win32  npm run package && node ./scripts/windows-installer.js",
-    "zip": "zip -r ./builds/win32/SeqPod.zip ./builds/win32/SeqPod-installer",
+    "zip": "cd ./builds/darwin && zip -r ./SeqPod-darwin-x64.zip ./SeqPod-darwin-x64 && cd ../win32 && zip -r ./SeqPod-installer.zip ./SeqPod-installer",
     "deliver": "npm run clean && npm run mac && npm run win && npm run zip",
 
     "test": "echo \"Error: no test specified\" && exit 1"
